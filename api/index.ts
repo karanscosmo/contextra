@@ -7,9 +7,9 @@ import { Server } from 'socket.io';
 import http from 'http';
 import dotenv from 'dotenv';
 
-import { ResearchAgent } from './agents/researchAgent';
-import { extractEntities, copilotChat } from './services/gemini';
-import { adminDb } from './lib/firebase-admin';
+import { ResearchAgent } from './agents/researchAgent.js';
+import { extractEntities, copilotChat } from './services/gemini.js';
+import { adminDb } from './lib/firebase-admin.js';
 
 dotenv.config();
 

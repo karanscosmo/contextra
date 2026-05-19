@@ -1,5 +1,5 @@
-import { extractEntities, getEmbeddings } from '../services/gemini';
-import { adminDb } from '../lib/firebase-admin';
+import { extractEntities, getEmbeddings } from '../services/gemini.js';
+import { adminDb } from '../lib/firebase-admin.js';
 import admin from 'firebase-admin';
 
 export interface AgentTask {
