@@ -35,8 +35,15 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
     try {
-      // Connect anonymously or using demo credentials
-      await signInAnonymously(auth);
+      // Use local mock user session bypass
+      const { setMockUser } = await import('../lib/firebase');
+      setMockUser({
+        uid: 'demo-investor-uid',
+        email: 'demo@contextra.io',
+        displayName: 'Demo Investor',
+        isAnonymous: true,
+        emailVerified: true
+      });
       navigate('/onboarding');
     } catch (err: any) {
       console.error(err);

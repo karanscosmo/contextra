@@ -20,40 +20,66 @@ try {
   app = {};
   auth = {
     currentUser: null,
-    onAuthStateChanged: (callback: any) => {
-      const timer = setTimeout(() => callback(null), 100);
-      return () => clearTimeout(timer);
-    },
-    signOut: async () => {}
   };
   db = {};
 }
 
+// Local mock session state for demo access bypass
+let mockUser: any = null;
+const authListeners = new Set<(user: any) => void>();
+
+export const setMockUser = (user: any) => {
+  mockUser = user;
+  // Trigger all auth state change listeners
+  if (auth) {
+    auth.currentUser = user;
+  }
+  authListeners.forEach(cb => cb(user));
+};
+
+export const onAuthChanged = (callback: (user: any) => void) => {
+  authListeners.add(callback);
+  
+  // Immediately call with the current state
+  if (mockUser) {
+    callback(mockUser);
+  } else {
+    try {
+      const unsubscribe = firebaseOnAuthStateChanged(auth, (u) => {
+        if (!mockUser) {
+          callback(u);
+        }
+      });
+      return () => {
+        authListeners.delete(callback);
+        unsubscribe();
+      };
+    } catch (e) {
+      callback(null);
+    }
+  }
+
+  return () => {
+    authListeners.delete(callback);
+  };
+};
+
 // Add legacy compatibility adapters directly to the auth object
 if (auth) {
-  if (!auth.onAuthStateChanged) {
-    auth.onAuthStateChanged = (callback: any) => {
-      if (typeof auth.onAuthStateChanged === 'function' && auth.onAuthStateChanged !== firebaseOnAuthStateChanged) {
-        return firebaseOnAuthStateChanged(auth, callback);
-      }
-      return firebaseOnAuthStateChanged(auth, callback);
-    };
-  }
-  if (!auth.signOut) {
-    auth.signOut = () => {
-      return firebaseSignOut(auth);
-    };
-  }
+  auth.onAuthStateChanged = (callback: any) => {
+    return onAuthChanged(callback);
+  };
+  auth.signOut = async () => {
+    setMockUser(null);
+    try {
+      await firebaseSignOut(auth);
+    } catch (e) {
+      console.warn("Firebase SignOut error:", e);
+    }
+  };
 }
 
 export { db, auth };
-
-export const onAuthChanged = (callback: (user: any) => void) => {
-  if (auth && typeof auth.onAuthStateChanged === 'function') {
-    return auth.onAuthStateChanged(callback);
-  }
-  return firebaseOnAuthStateChanged(auth, callback);
-};
 
 // Connectivity check
 async function testConnection() {
