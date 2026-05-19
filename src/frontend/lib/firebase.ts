@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore, initializeFirestore, doc, getDocFromCache, getDocFromServer } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged as firebaseOnAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
+import { getFirestore, doc, getDocFromCache, getDocFromServer } from 'firebase/firestore';
 import firebaseConfig from '../../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
@@ -8,6 +8,18 @@ export const db = firebaseConfig.firestoreDatabaseId
   ? getFirestore(app, firebaseConfig.firestoreDatabaseId)
   : getFirestore(app);
 export const auth = getAuth(app);
+
+// Compatibility adapters for older method signatures used in workspace pages
+(auth as any).onAuthStateChanged = (callback: any) => {
+  return firebaseOnAuthStateChanged(auth, callback);
+};
+(auth as any).signOut = () => {
+  return firebaseSignOut(auth);
+};
+
+export const onAuthChanged = (callback: (user: any) => void) => {
+  return firebaseOnAuthStateChanged(auth, callback);
+};
 
 // Connectivity check
 async function testConnection() {
