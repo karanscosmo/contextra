@@ -360,54 +360,6 @@ const AppContent = () => {
 };
 
 export default function App() {
-  useEffect(() => {
-    const updateLogos = () => {
-      const headings = document.querySelectorAll('h1, h2, h3, header div, aside div, footer div, nav div, span');
-      headings.forEach(el => {
-        if (
-          el.childNodes.length === 1 && 
-          el.childNodes[0].nodeType === Node.TEXT_NODE && 
-          el.textContent?.trim() === 'Contextra' && 
-          !el.closest('.relative.inline-flex') && 
-          !(el as HTMLElement).dataset.logoInjected
-        ) {
-          (el as HTMLElement).dataset.logoInjected = 'true';
-          
-          let sizeClass = 'w-6 h-6 mr-2';
-          if (el.tagName === 'H1' || el.classList.contains('text-headline-lg')) {
-            sizeClass = 'w-8 h-8 mr-3';
-          } else if (el.classList.contains('text-headline-md')) {
-            sizeClass = 'w-6 h-6 mr-2';
-          } else if (el.tagName === 'SPAN') {
-            sizeClass = 'w-5 h-5 mr-1.5';
-          }
-
-          const logoImg = document.createElement('img');
-          logoImg.src = '/logo/logo.jpg';
-          logoImg.className = `${sizeClass} rounded-md object-cover inline-block align-middle transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(99,102,241,0.3)] animate-orbital-float`;
-          
-          const textVal = el.textContent;
-          el.innerHTML = '';
-          el.appendChild(logoImg);
-          
-          const textSpan = document.createElement('span');
-          textSpan.textContent = textVal;
-          textSpan.className = 'align-middle font-semibold';
-          el.appendChild(textSpan);
-          
-          el.classList.add('inline-flex', 'items-center', 'align-middle');
-        }
-      });
-    };
-
-    updateLogos();
-    
-    const observer = new MutationObserver(updateLogos);
-    observer.observe(document.body, { childList: true, subtree: true });
-    
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <RouterProvider>
       <AuthGuard>
