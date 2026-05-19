@@ -220,18 +220,37 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const { path, navigate } = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setLoading(false);
-    });
-
-    // safety timeout fallback (3 seconds) to prevent loading screen hang
+    // 1. Register the safety timeout fallback first to guarantee it runs
     const timer = setTimeout(() => {
+      console.warn("AuthGuard safety fallback timeout triggered.");
       setLoading(false);
     }, 3000);
 
+    let unsubscribe: any = () => {};
+
+    // 2. Try subscribing to auth changes safely
+    try {
+      if (auth && typeof auth.onAuthStateChanged === 'function') {
+        unsubscribe = auth.onAuthStateChanged((u: any) => {
+          setUser(u);
+          setLoading(false);
+        });
+      } else {
+        unsubscribe = onAuthStateChanged(auth, (u) => {
+          setUser(u);
+          setLoading(false);
+        });
+      }
+    } catch (err) {
+      console.error("AuthGuard failed to subscribe to Firebase Auth:", err);
+      // Immediately clear loading screen if subscription fails
+      setLoading(false);
+    }
+
     return () => {
-      unsubscribe();
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
       clearTimeout(timer);
     };
   }, []);
