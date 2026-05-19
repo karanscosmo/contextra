@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CitationExplorerPage() {
   return (
-    <div className="bg-surface text-on-surface font-body-md selection:bg-secondary-container w-full min-h-screen">
+    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24

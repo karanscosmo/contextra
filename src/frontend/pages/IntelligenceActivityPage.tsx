@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 
 export default function IntelligenceActivityPage() {
   return (
-    <div className="bg-surface font-body-md text-on-surface selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
+    <div className="bg-white/60 backdrop-blur-sm font-body-md text-on-surface selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.glass-edge {
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2)

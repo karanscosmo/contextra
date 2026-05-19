@@ -15,7 +15,7 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      setError('Please provide both email identifier and secure token.');
+      setError('Please enter your email and password to continue.');
       return;
     }
     setLoading(true);
@@ -25,7 +25,12 @@ export default function LoginPage() {
       navigate('/mission-control');
     } catch (err: any) {
       console.error(err);
-      setError(err?.message || 'Authentication failed. Please verify credentials.');
+      const msg = err?.code === 'auth/user-not-found' ? 'No account found with that email.'
+        : err?.code === 'auth/wrong-password' ? 'Incorrect password. Please try again.'
+        : err?.code === 'auth/invalid-email' ? 'Please enter a valid email address.'
+        : err?.code === 'auth/too-many-requests' ? 'Too many attempts. Please wait a moment and try again.'
+        : 'Sign in failed. Please check your email and password.';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -54,7 +59,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="bg-surface text-on-surface selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden w-full min-h-screen">
+    <div className="text-on-surface selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24
@@ -90,12 +95,12 @@ export default function LoginPage() {
           <div className="absolute inset-0 bg-gradient-to-tr from-surface-dim/80 via-transparent to-tertiary-container/20"></div>
           <div className="absolute inset-0 canvas-grain"></div>
           {/* Floating Content */}
-          <div className="relative z-10 p-margin-page flex flex-col justify-end h-full">
+          <div className="relative z-10 p-16 flex flex-col justify-end h-full">
             <div className="max-w-xl">
-              <span className="font-mono-ui text-mono-ui text-tertiary uppercase tracking-widest block mb-4">Vellum Workspace v2.4</span>
-              <h1 className="font-display-hero text-display-hero text-on-surface mb-6">Synthesis starts here.</h1>
+              <span className="font-mono-ui text-mono-ui text-tertiary/80 uppercase tracking-widest block mb-4">AI Research Platform</span>
+              <h1 className="font-display-hero text-display-hero text-on-surface mb-6">Research smarter, not harder.</h1>
               <p className="font-body-lg text-body-lg text-on-surface-variant/80 max-w-md">
-                Experience a tactile digital environment designed for high-order thought and interconnected knowledge exploration.
+                Upload your sources, connect the dots with AI, and turn scattered research into clear, actionable insights.
               </p>
             </div>
           </div>
@@ -118,8 +123,8 @@ export default function LoginPage() {
             </div>
             {/* Form Header */}
             <div className="mb-6">
-              <h2 className="font-headline-lg text-headline-lg text-on-surface mb-2">Welcome Back</h2>
-              <p className="font-body-md text-body-md text-on-surface-variant">Rejoin your synthesis environment.</p>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface mb-2">Welcome back</h2>
+              <p className="font-body-md text-body-md text-on-surface-variant">Sign in to your Contextra workspace.</p>
             </div>
 
             {error && (
@@ -132,7 +137,7 @@ export default function LoginPage() {
             {/* Form */}
             <form onSubmit={handleLogin} className="space-y-6 flex-grow">
               <div className="space-y-2">
-                <label className="font-label-caps text-label-caps text-on-surface-variant ml-1" htmlFor="email">Email Identifier</label>
+                <label className="font-label-caps text-label-caps text-on-surface-variant ml-1" htmlFor="email">Email address</label>
                 <input
                   className="w-full bg-surface-container-low border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-on-surface focus:ring-1 focus:ring-secondary focus:border-secondary transition-all placeholder:text-on-surface-variant/30 outline-none"
                   id="email"
@@ -145,8 +150,8 @@ export default function LoginPage() {
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center px-1">
-                  <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="password">Secure Token</label>
-                  <a className="font-label-caps text-[10px] text-tertiary hover:text-on-tertiary-fixed-variant transition-colors" href="#" onClick={(e) => { e.preventDefault(); alert('Reset password link sent (simulated).'); }}>Lost Access?</a>
+                  <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="password">Password</label>
+                  <a className="font-label-caps text-[11px] text-secondary hover:text-secondary/80 transition-colors cursor-pointer" href="#" onClick={(e) => { e.preventDefault(); setError('Check your email — we\'ll send a reset link shortly.'); }}>Forgot password?</a>
                 </div>
                 <div className="relative">
                   <input
@@ -173,8 +178,11 @@ export default function LoginPage() {
                 type="submit"
                 disabled={loading}
               >
-                {loading ? 'Synthesizing...' : 'Begin Synthesis'}
-                <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                {loading ? (
+                  <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Signing in...</span>
+                ) : (
+                  <span className="flex items-center gap-2">Sign in <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span></span>
+                )}
               </button>
             </form>
 
@@ -183,22 +191,22 @@ export default function LoginPage() {
               <button
                 onClick={handleQuickDemo}
                 disabled={loading}
-                className="w-full bg-secondary-container/20 border border-secondary-container/30 text-secondary hover:bg-secondary-container/40 py-3 rounded-lg font-label-caps text-xs tracking-wider transition-all flex items-center justify-center gap-2"
+                className="w-full bg-secondary/8 border border-secondary/20 text-secondary hover:bg-secondary/15 py-3 rounded-lg font-semibold text-[13px] transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-[18px]">bolt</span>
-                Investor Demo Quick Entrance
+                Try Demo — no signup needed
               </button>
             </div>
 
             {/* Sign Up Redirect */}
-            <div className="text-center mt-6 text-xs font-mono-ui text-on-surface-variant/60">
-              New Researcher?{' '}
-              <a
+            <div className="text-center mt-6 text-[13px] text-on-surface-variant">
+              Don't have an account?{' '}
+              <button
                 onClick={() => navigate('/signup')}
-                className="text-secondary hover:underline cursor-pointer font-bold"
+                className="text-secondary hover:underline cursor-pointer font-semibold"
               >
-                Create Credentials
-              </a>
+                Sign up free
+              </button>
             </div>
 
             {/* Footer Links */}

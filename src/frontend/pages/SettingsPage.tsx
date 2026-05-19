@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function SettingsPage() {
   return (
-    <div className="bg-surface text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden h-screen flex w-full min-h-screen">
+    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden h-screen flex w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.glass-panel {
     background: rgba(252, 249, 241, 0.4);

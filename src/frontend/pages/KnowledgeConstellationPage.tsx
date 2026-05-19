@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 
 export default function KnowledgeConstellationPage() {
   return (
-    <div className="bg-surface text-on-surface font-body-md overflow-hidden selection:bg-secondary-container w-full min-h-screen">
+    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md overflow-hidden selection:bg-secondary-container w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24

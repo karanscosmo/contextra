@@ -76,7 +76,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="bg-surface text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden min-h-screen flex w-full">
+    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden min-h-screen flex w-full">
       {/* Side Navigation Bar */}
       <aside className="bg-surface-container-low dark:bg-surface-container-lowest h-screen w-64 fixed left-0 top-0 z-30 flex flex-col py-margin-page px-6 border-r border-outline-variant/30">
         <div className="mb-12">

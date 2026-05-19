@@ -48,7 +48,7 @@ export default function Sidebar({ activePage }: SidebarProps) {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col h-full py-8 px-5 bg-white/80 backdrop-blur-xl h-screen w-64 fixed left-0 top-0 z-30 border-r border-outline-variant/20 shadow-sm">
+    <aside className="hidden md:flex flex-col h-full py-8 px-5 bg-white/85 backdrop-blur-xl h-screen w-64 fixed left-0 top-0 z-30 border-r border-outline-variant/15 shadow-sm">
       {/* Brand */}
       <div className="mb-10">
         <div

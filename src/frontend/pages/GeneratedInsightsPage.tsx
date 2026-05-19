@@ -1,11 +1,12 @@
 import React from 'react';
+import Sidebar from '../components/Sidebar';
 
 export default function GeneratedInsightsPage() {
   return (
-    <div className="font-body-md text-on-surface min-h-screen w-full min-h-screen">
+    <div className="bg-transparent text-on-surface min-h-screen w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `body {
-    background-color: #fcf9f1
+    background-color: transparent
     }
 .material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24
@@ -17,66 +18,10 @@ export default function GeneratedInsightsPage() {
     background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuD4_vTTgGJQq1yIy2tWEscWoKfasuMkX4lGN2Od5-yFUYKTiWoDK5IbaUSiFGtwMLGfiMzdzlBze1GJyYHLkcjvdjgZQr6Qle3etQG743Jn2O76z5VXAV6mWyaKHI3gzbG_yz-coHLEgWu15x4nfNsOUuqduZ8amFB4qOXocFScI6WgF6qNJP9PAnhUbMdPzUkJQ6lHtcQQuNu6sNIbwDsuGG-UFeTBnO2GfQEJqHGc5az0yoZtMq9c2b1Ep4RY1MmF6Jaf9kVBEL8)
     }` }} />
       
-      
-{/* TopAppBar */}
-<header className="bg-surface/60 backdrop-blur-2xl text-primary font-label-caps text-label-caps docked full-width top-0 sticky z-40 flex justify-between items-center px-margin-page py-unit h-16 w-full">
-<div className="font-headline-md text-headline-md tracking-tighter text-on-surface">Contextra</div>
-<nav className="hidden md:flex items-center gap-8">
-<a className="text-on-surface-variant/60 hover:text-primary transition-colors duration-300" href="#">INTELLIGENCE</a>
-<a className="text-primary font-bold transition-colors duration-300" href="#">SYNTHESIS</a>
-<a className="text-on-surface-variant/60 hover:text-primary transition-colors duration-300" href="#">NETWORK</a>
-</nav>
-<div className="flex items-center gap-4">
-<span className="material-symbols-outlined hover:text-primary transition-colors duration-300 cursor-pointer" data-icon="flare">flare</span>
-<span className="material-symbols-outlined hover:text-primary transition-colors duration-300 cursor-pointer" data-icon="notifications_none">notifications_none</span>
-<span className="material-symbols-outlined hover:text-primary transition-colors duration-300 cursor-pointer" data-icon="account_circle">account_circle</span>
-</div>
-</header>
-<div className="flex">
-{/* SideNavBar */}
-<aside className="bg-surface-container-low h-screen w-64 fixed left-0 top-0 z-30 flex flex-col h-full py-margin-page px-6 border-r border-outline-variant/30 hidden lg:flex">
-<div className="mb-12">
-<div className="font-headline-md text-headline-md text-on-surface">Contextra</div>
-<div className="font-mono-ui text-mono-ui text-on-surface-variant/70">Vellum Workspace</div>
-</div>
-<button className="bg-primary text-on-primary rounded-full py-3 px-6 mb-8 font-label-caps text-label-caps flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-<span className="material-symbols-outlined text-sm" data-icon="add">add</span>
-                New Synthesis
-            </button>
-<nav className="space-y-4">
-<div className="flex items-center gap-3 px-3 py-2 text-on-surface-variant/70 font-label-caps text-label-caps hover:bg-surface-variant/50 rounded-lg transition-all">
-<span className="material-symbols-outlined" data-icon="space_dashboard">space_dashboard</span>
-                    Intelligence Canvas
-                </div>
-<div className="flex items-center gap-3 px-3 py-2 text-primary border-r-2 border-primary font-bold font-label-caps text-label-caps bg-surface-variant/50 rounded-lg transition-all">
-<span className="material-symbols-outlined" data-icon="hub">hub</span>
-                    Knowledge Constellation
-                </div>
-<div className="flex items-center gap-3 px-3 py-2 text-on-surface-variant/70 font-label-caps text-label-caps hover:bg-surface-variant/50 rounded-lg transition-all">
-<span className="material-symbols-outlined" data-icon="folder_open">folder_open</span>
-                    Source Hub
-                </div>
-<div className="flex items-center gap-3 px-3 py-2 text-on-surface-variant/70 font-label-caps text-label-caps hover:bg-surface-variant/50 rounded-lg transition-all">
-<span className="material-symbols-outlined" data-icon="layers">layers</span>
-                    Synthesis Studio
-                </div>
-<div className="flex items-center gap-3 px-3 py-2 text-on-surface-variant/70 font-label-caps text-label-caps hover:bg-surface-variant/50 rounded-lg transition-all">
-<span className="material-symbols-outlined" data-icon="history">history</span>
-                    Memory Timeline
-                </div>
-</nav>
-<div className="mt-auto pt-8 flex items-center gap-3">
-<div className="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center">
-<span className="material-symbols-outlined text-secondary text-sm" data-icon="person">person</span>
-</div>
-<div className="flex flex-col">
-<span className="font-label-caps text-label-caps text-on-surface">DR. ARIS</span>
-<span className="font-mono-ui text-[10px] text-on-surface-variant/50 uppercase tracking-widest">Active Session</span>
-</div>
-</div>
-</aside>
-{/* Main Content (Intelligence Canvas) */}
-<main className="flex-1 lg:ml-64 px-margin-page py-12 max-w-7xl mx-auto w-full">
+      <Sidebar activePage="synthesis" />
+      <div className="flex">
+      {/* Main Content (Intelligence Canvas) */}
+      <main className="flex-1 lg:ml-64 px-margin-page py-12 max-w-7xl mx-auto w-full">
 {/* Page Header */}
 <header className="mb-16">
 <div className="flex items-center gap-2 mb-4">

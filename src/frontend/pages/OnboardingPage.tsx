@@ -2,142 +2,242 @@ import React, { useState } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
 
+const steps = [
+  {
+    id: 1,
+    emoji: '👋',
+    title: "What are you working on?",
+    subtitle: "Help us set up Contextra for the way you think.",
+  },
+  {
+    id: 2,
+    emoji: '🧠',
+    title: "How should AI respond?",
+    subtitle: "Choose how creative or precise you want AI insights to be.",
+  },
+  {
+    id: 3,
+    emoji: '🚀',
+    title: "You're all set!",
+    subtitle: "Your workspace is ready. Let's dive in.",
+  },
+];
+
 export default function OnboardingPage() {
   const { navigate } = useRouter();
   const [step, setStep] = useState(1);
   const [lens, setLens] = useState('academic');
-  const [modality, setModality] = useState('strict');
+  const [modality, setModality] = useState('balanced');
 
-  const handleFinish = () => {
-    alert('Onboarding setup complete. Ready to enter Contextra OS.');
-    navigate('/mission-control');
-  };
+  const currentStep = steps.find(s => s.id === step)!;
+
+  const lensOptions = [
+    {
+      id: 'academic',
+      icon: 'school',
+      title: 'Academic Research',
+      desc: 'Focused on citations, papers, and systematic study.',
+    },
+    {
+      id: 'strategist',
+      icon: 'trending_up',
+      title: 'Business Strategy',
+      desc: 'Market analysis, trends, and competitive intelligence.',
+    },
+    {
+      id: 'creative',
+      icon: 'palette',
+      title: 'Creative Projects',
+      desc: 'Ideas, mood boards, inspiration, and creative synthesis.',
+    },
+    {
+      id: 'personal',
+      icon: 'person',
+      title: 'Personal Learning',
+      desc: 'Books, podcasts, and courses — organized and connected.',
+    },
+  ];
+
+  const modalityOptions = [
+    {
+      id: 'creative',
+      title: 'Creative & Exploratory',
+      desc: 'AI finds unexpected connections and suggests bold ideas.',
+      icon: 'lightbulb',
+    },
+    {
+      id: 'balanced',
+      title: 'Balanced',
+      desc: 'Mix of creative insights and grounded, cited analysis.',
+      icon: 'balance',
+    },
+    {
+      id: 'precise',
+      title: 'Precise & Factual',
+      desc: 'AI sticks strictly to what your uploaded sources say.',
+      icon: 'verified',
+    },
+  ];
 
   return (
-    <div className="bg-surface text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container min-h-screen flex items-center justify-center py-20 px-6">
-      <div className="max-w-xl w-full p-8 md:p-12 rounded-3xl border border-surface-variant bg-surface-container-low/30 backdrop-blur-xl shadow-2xl space-y-8">
-        {/* Brand Row */}
-        <div className="flex items-center gap-3 justify-between">
-          <div className="flex items-center gap-2">
-            <Logo size="sm" />
-            <span className="font-headline-md text-headline-md tracking-tighter text-on-surface">Contextra</span>
+    <div className="min-h-screen w-full flex items-center justify-center px-4 py-12">
+      <div className="max-w-lg w-full">
+        {/* Logo */}
+        <div className="flex items-center gap-3 mb-10">
+          <Logo size="md" />
+          <div>
+            <div className="font-bold text-[18px] text-on-surface">Contextra</div>
+            <div className="text-[12px] text-on-surface-variant">AI Research Platform</div>
           </div>
-          <span className="font-mono-ui text-[11px] text-on-surface-variant bg-surface-container px-2 py-1 rounded">
-            Step {step} of 3
-          </span>
         </div>
 
-        {step === 1 && (
-          <div className="space-y-6">
-            <h2 className="font-headline-lg text-headline-lg text-on-surface">Choose your primary lens.</h2>
-            <p className="font-body-md text-on-surface-variant/80">
-              Select how Contextra should structure research outputs and surface associative connections.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <label
-                onClick={() => setLens('academic')}
-                className={`p-6 border rounded-2xl cursor-pointer transition-all flex flex-col gap-2 ${lens === 'academic' ? 'bg-secondary-container/10 border-secondary' : 'bg-surface hover:bg-surface-container-high border-outline-variant/30'}`}
-              >
-                <span className="material-symbols-outlined text-secondary">school</span>
-                <span className="font-headline-md text-body-lg font-bold">Academic</span>
-                <span className="font-body-md text-xs text-on-surface-variant/70 leading-relaxed">Prioritize citation verification and systematic literature references.</span>
-              </label>
-              <label
-                onClick={() => setLens('strategist')}
-                className={`p-6 border rounded-2xl cursor-pointer transition-all flex flex-col gap-2 ${lens === 'strategist' ? 'bg-secondary-container/10 border-secondary' : 'bg-surface hover:bg-surface-container-high border-outline-variant/30'}`}
-              >
-                <span className="material-symbols-outlined text-secondary">timeline</span>
-                <span className="font-headline-md text-body-lg font-bold">Strategist</span>
-                <span className="font-body-md text-xs text-on-surface-variant/70 leading-relaxed">Prioritize pattern recognition, market mapping, and cluster visualization.</span>
-              </label>
-            </div>
-            <button
-              onClick={() => setStep(2)}
-              className="w-full bg-primary hover:bg-on-surface text-surface py-4 rounded-xl font-label-caps text-xs tracking-wider transition-all mt-4"
-            >
-              Continue Configuration
-            </button>
-          </div>
-        )}
+        {/* Progress dots */}
+        <div className="flex gap-2 mb-8">
+          {steps.map(s => (
+            <div
+              key={s.id}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                s.id === step ? 'w-8 bg-secondary' : s.id < step ? 'w-4 bg-secondary/40' : 'w-4 bg-outline-variant/40'
+              }`}
+            />
+          ))}
+        </div>
 
-        {step === 2 && (
-          <div className="space-y-6">
-            <h2 className="font-headline-lg text-headline-lg text-on-surface">Synthesis Modality</h2>
-            <p className="font-body-md text-on-surface-variant/80">
-              Configure strict factual alignment vs. creative cognitive interpolation vectors.
-            </p>
-            <div className="flex bg-surface-container border border-outline-variant/30 p-1 rounded-full w-full">
-              <button
-                onClick={() => setModality('fluid')}
-                className={`flex-1 py-3 text-xs font-label-caps rounded-full transition-all ${modality === 'fluid' ? 'bg-white text-on-surface shadow-sm font-semibold' : 'text-on-surface-variant'}`}
-              >
-                Fluid Association
-              </button>
-              <button
-                onClick={() => setModality('strict')}
-                className={`flex-1 py-3 text-xs font-label-caps rounded-full transition-all ${modality === 'strict' ? 'bg-white text-on-surface shadow-sm font-semibold' : 'text-on-surface-variant'}`}
-              >
-                Strict Citational
-              </button>
-            </div>
-            <p className="font-mono-ui text-xs text-on-surface-variant/70 leading-relaxed">
-              {modality === 'strict'
-                ? 'Strict Citational mode forces active agents to only verify and catalog facts directly found in ingested PDFs and transcripts.'
-                : 'Fluid Association mode allows the AI to link conceptual patterns across broad domains and suggest novel research theories.'}
-            </p>
-            <div className="flex gap-4 pt-4">
-              <button
-                onClick={() => setStep(1)}
-                className="flex-1 py-4 border border-outline-variant/30 rounded-xl font-label-caps text-xs text-on-surface hover:bg-surface-variant transition-all"
-              >
-                Back
-              </button>
-              <button
-                onClick={() => setStep(3)}
-                className="flex-1 bg-primary hover:bg-on-surface text-surface py-4 rounded-xl font-label-caps text-xs tracking-wider transition-all"
-              >
-                Next Step
-              </button>
-            </div>
-          </div>
-        )}
+        {/* Card */}
+        <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-outline-variant/20 shadow-2xl shadow-secondary/8 p-8 md:p-10">
+          <div className="text-[32px] mb-3">{currentStep.emoji}</div>
+          <h2 className="text-[24px] font-bold text-on-surface mb-2">{currentStep.title}</h2>
+          <p className="text-[15px] text-on-surface-variant mb-8 leading-relaxed">{currentStep.subtitle}</p>
 
-        {step === 3 && (
-          <div className="space-y-6">
-            <h2 className="font-headline-lg text-headline-lg text-on-surface">Establish Canvas Base</h2>
-            <p className="font-body-md text-on-surface-variant/80">
-              Confirm your workspace nodes are ready. Contextra is now ready to build your personal knowledge constellation.
-            </p>
-            <div className="p-6 border border-dashed border-outline-variant/30 rounded-2xl space-y-4">
-              <div className="flex justify-between text-xs font-mono-ui">
-                <span className="opacity-60">LENS</span>
-                <span className="font-bold text-secondary uppercase">{lens}</span>
-              </div>
-              <div className="flex justify-between text-xs font-mono-ui">
-                <span className="opacity-60">MODALITY</span>
-                <span className="font-bold text-secondary uppercase">{modality}</span>
-              </div>
-              <div className="flex justify-between text-xs font-mono-ui">
-                <span className="opacity-60">MEMORIES</span>
-                <span className="font-bold text-secondary uppercase">INITIATING VECTOR STORE</span>
-              </div>
-            </div>
-            <div className="flex gap-4 pt-4">
+          {/* Step 1 — Research Type */}
+          {step === 1 && (
+            <div className="space-y-3">
+              {lensOptions.map(option => (
+                <button
+                  key={option.id}
+                  onClick={() => setLens(option.id)}
+                  className={`w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all duration-200 ${
+                    lens === option.id
+                      ? 'bg-secondary/8 border-secondary/30 shadow-sm'
+                      : 'bg-white border-outline-variant/20 hover:border-outline-variant/50 hover:bg-surface-container/40'
+                  }`}
+                >
+                  <span className={`material-symbols-outlined text-[22px] ${lens === option.id ? 'text-secondary' : 'text-on-surface-variant'}`}>
+                    {option.icon}
+                  </span>
+                  <div>
+                    <div className={`font-semibold text-[14px] ${lens === option.id ? 'text-secondary' : 'text-on-surface'}`}>
+                      {option.title}
+                    </div>
+                    <div className="text-[12px] text-on-surface-variant/70">{option.desc}</div>
+                  </div>
+                  {lens === option.id && (
+                    <span className="material-symbols-outlined text-secondary ml-auto text-[18px]">check_circle</span>
+                  )}
+                </button>
+              ))}
               <button
                 onClick={() => setStep(2)}
-                className="flex-1 py-4 border border-outline-variant/30 rounded-xl font-label-caps text-xs text-on-surface hover:bg-surface-variant transition-all"
+                className="mt-4 w-full bg-secondary text-white py-3.5 rounded-xl font-semibold text-[14px] hover:bg-secondary/90 transition-all shadow-md shadow-secondary/20"
               >
-                Back
-              </button>
-              <button
-                onClick={handleFinish}
-                className="flex-1 bg-secondary text-white py-4 rounded-xl font-label-caps text-xs tracking-wider hover:bg-on-surface transition-all shadow-lg shadow-secondary/15"
-              >
-                Enter Workspace
+                Continue →
               </button>
             </div>
-          </div>
-        )}
+          )}
+
+          {/* Step 2 — AI Style */}
+          {step === 2 && (
+            <div className="space-y-3">
+              {modalityOptions.map(option => (
+                <button
+                  key={option.id}
+                  onClick={() => setModality(option.id)}
+                  className={`w-full flex items-center gap-4 p-4 rounded-xl border text-left transition-all duration-200 ${
+                    modality === option.id
+                      ? 'bg-secondary/8 border-secondary/30 shadow-sm'
+                      : 'bg-white border-outline-variant/20 hover:border-outline-variant/50 hover:bg-surface-container/40'
+                  }`}
+                >
+                  <span className={`material-symbols-outlined text-[22px] ${modality === option.id ? 'text-secondary' : 'text-on-surface-variant'}`}>
+                    {option.icon}
+                  </span>
+                  <div>
+                    <div className={`font-semibold text-[14px] ${modality === option.id ? 'text-secondary' : 'text-on-surface'}`}>
+                      {option.title}
+                    </div>
+                    <div className="text-[12px] text-on-surface-variant/70">{option.desc}</div>
+                  </div>
+                  {modality === option.id && (
+                    <span className="material-symbols-outlined text-secondary ml-auto text-[18px]">check_circle</span>
+                  )}
+                </button>
+              ))}
+              <div className="flex gap-3 mt-4">
+                <button
+                  onClick={() => setStep(1)}
+                  className="flex-1 py-3.5 border border-outline-variant/30 rounded-xl text-[14px] font-medium text-on-surface-variant hover:bg-surface-container/40 transition-all"
+                >
+                  ← Back
+                </button>
+                <button
+                  onClick={() => setStep(3)}
+                  className="flex-1 bg-secondary text-white py-3.5 rounded-xl font-semibold text-[14px] hover:bg-secondary/90 transition-all shadow-md shadow-secondary/20"
+                >
+                  Continue →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3 — Confirmation */}
+          {step === 3 && (
+            <div className="space-y-6">
+              <div className="bg-surface-container/40 rounded-2xl p-5 border border-outline-variant/15 space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-[13px] text-on-surface-variant">Research Type</span>
+                  <span className="text-[13px] font-semibold text-secondary capitalize">{lens}</span>
+                </div>
+                <div className="h-px bg-outline-variant/20" />
+                <div className="flex justify-between items-center">
+                  <span className="text-[13px] text-on-surface-variant">AI Style</span>
+                  <span className="text-[13px] font-semibold text-secondary capitalize">{modality}</span>
+                </div>
+                <div className="h-px bg-outline-variant/20" />
+                <div className="flex justify-between items-center">
+                  <span className="text-[13px] text-on-surface-variant">Workspace</span>
+                  <span className="text-[13px] font-semibold text-green-600 flex items-center gap-1">
+                    <span className="material-symbols-outlined text-[14px]">check_circle</span>
+                    Ready
+                  </span>
+                </div>
+              </div>
+              <p className="text-[14px] text-on-surface-variant text-center">
+                You can change these settings anytime in your preferences.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setStep(2)}
+                  className="flex-1 py-3.5 border border-outline-variant/30 rounded-xl text-[14px] font-medium text-on-surface-variant hover:bg-surface-container/40 transition-all"
+                >
+                  ← Back
+                </button>
+                <button
+                  onClick={() => navigate('/mission-control')}
+                  className="flex-1 bg-secondary text-white py-3.5 rounded-xl font-semibold text-[14px] hover:bg-secondary/90 transition-all shadow-md shadow-secondary/20"
+                >
+                  Open Workspace 🎉
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <p className="text-center text-[12px] text-on-surface-variant/60 mt-6">
+          By continuing, you agree to our{' '}
+          <button className="underline hover:text-on-surface transition-colors">Terms</button>
+          {' '}and{' '}
+          <button className="underline hover:text-on-surface transition-colors">Privacy Policy</button>
+        </p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function SourceDetailPage() {
   return (
-    <div className="bg-surface font-body-md text-on-surface selection:bg-secondary-container w-full min-h-screen">
+    <div className="bg-white/60 backdrop-blur-sm font-body-md text-on-surface selection:bg-secondary-container w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.paper-grain {
     background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAmY_YI3BtgNjZyLQotcUMAkB5csX01PAnxBAAZaQ0ELSuziYtqW0_sTqnid4snpZ3GkF_5PH3kxsilPivl5nFNQIFvj2PtLkLuLY7FhCQY8TSMteWziVtOkISJQDObwYY6zw0Z0Ec81r_t5ASJPd5MozwVh3woc0DWjFcbb4QPcZEYNJyNJSprm9w0LwguTfw3JypUzNyxbfN0UD_dzxwYLvNf61IQxB6Cfymw27nuSsd9JcU2TFmWOoR9Bok1CM6HCMcg1HTJhXE);

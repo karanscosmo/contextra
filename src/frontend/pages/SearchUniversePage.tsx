@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function SearchUniversePage() {
   return (
-    <div className="bg-surface text-on-surface vellum-texture min-h-screen selection:bg-secondary-container w-full min-h-screen">
+    <div className="bg-transparent text-on-surface vellum-texture min-h-screen selection:bg-secondary-container w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.glass-surface {
     backdrop-filter: blur(24px);

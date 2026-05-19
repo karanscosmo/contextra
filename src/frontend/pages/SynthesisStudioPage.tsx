@@ -4,7 +4,7 @@ import Sidebar from '../components/Sidebar';
 
 export default function SynthesisStudioPage() {
   return (
-    <div className="bg-surface font-body-md text-on-surface selection:bg-secondary-container w-full min-h-screen">
+    <div className="bg-white/60 backdrop-blur-sm font-body-md text-on-surface selection:bg-secondary-container w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.glass-sheet {
     background: rgba(255, 255, 255, 0.4);
