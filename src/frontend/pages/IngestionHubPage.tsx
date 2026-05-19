@@ -4,10 +4,10 @@ import Sidebar from '../components/Sidebar';
 
 export default function IngestionHubPage() {
   return (
-    <div className="bg-surface text-on-surface w-full min-h-screen">
+    <div className="bg-transparent text-on-surface w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `body {
-    background-color: #fcf9f1;
+    background-color: transparent;
     font-family: "Plus Jakarta Sans", sans-serif;
     -webkit-font-smoothing: antialiased
     }

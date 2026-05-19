@@ -363,20 +363,21 @@ export default function App() {
   return (
     <RouterProvider>
       <AuthGuard>
-        {/* Global Video Background */}
-        <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none w-full h-full bg-[#fcf9f1]">
+        {/* Global Video Background — Light Mode Ambient */}
+        <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none w-full h-full bg-[#faf7ef]">
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover scale-125 origin-center brightness-110 contrast-90 saturate-75 opacity-[0.16] blur-[5px] transition-all duration-1000"
+            className="w-full h-full object-cover scale-110 origin-center brightness-150 contrast-75 saturate-50 opacity-[0.28] blur-[2px] transition-all duration-1000"
           >
             <source src="/videomp_.mp4" type="video/mp4" />
           </video>
-          {/* Overlays for readable text and premium styling */}
-          <div className="absolute inset-0 bg-[#fcf9f1]/70 dark:bg-[#121212]/80 mix-blend-normal" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,#fcf9f1_90%)] dark:bg-[radial-gradient(circle_at_center,transparent_30%,#121212_90%)]" />
+          {/* Warm ivory overlay — keeps content readable, adds warmth */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#fdf9f0]/60 via-[#fcf8ed]/40 to-[#faf6ea]/60" />
+          {/* Soft radial vignette for premium depth */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(252,249,241,0)_0%,rgba(250,246,234,0.55)_100%)]" />
         </div>
         <AppContent />
       </AuthGuard>

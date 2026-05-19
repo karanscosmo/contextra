@@ -103,7 +103,7 @@
 @layer base {
   body {
     @apply antialiased;
-    background-color: var(--color-surface);
+    background-color: transparent;
     color: var(--color-on-surface);
   }
 }

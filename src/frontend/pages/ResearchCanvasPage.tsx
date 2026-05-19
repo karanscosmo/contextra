@@ -1,8 +1,9 @@
 import React from 'react';
+import Sidebar from '../components/Sidebar';
 
 export default function ResearchCanvasPage() {
   return (
-    <div className="bg-surface text-on-surface vellum-texture min-h-screen overflow-hidden w-full min-h-screen">
+    <div className="bg-transparent text-on-surface vellum-texture min-h-screen overflow-hidden w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
@@ -25,41 +26,9 @@ export default function ResearchCanvasPage() {
     border-radius: 10px
     }` }} />
       
-      
-{/* Left: SideNavBar Anchor */}
-<aside className="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 z-30 bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant/30 dark:border-outline/20 py-margin-page px-6">
-<div className="mb-12">
-<h1 className="font-headline-md text-headline-md text-on-surface tracking-tighter">Contextra</h1>
-<p className="font-label-caps text-label-caps text-on-surface-variant/70 uppercase">Vellum Workspace</p>
-</div>
-<nav className="flex-1 space-y-4">
-<a className="flex items-center gap-3 text-primary dark:text-primary-fixed border-r-2 border-primary font-bold py-2 px-3 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="space_dashboard">space_dashboard</span>
-<span className="font-label-caps text-label-caps">Intelligence Canvas</span>
-</a>
-<a className="flex items-center gap-3 text-on-surface-variant/70 dark:text-on-surface-variant/50 hover:bg-surface-variant/50 py-2 px-3 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="hub">hub</span>
-<span className="font-label-caps text-label-caps">Knowledge Constellation</span>
-</a>
-<a className="flex items-center gap-3 text-on-surface-variant/70 dark:text-on-surface-variant/50 hover:bg-surface-variant/50 py-2 px-3 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="folder_open">folder_open</span>
-<span className="font-label-caps text-label-caps">Source Hub</span>
-</a>
-<a className="flex items-center gap-3 text-on-surface-variant/70 dark:text-on-surface-variant/50 hover:bg-surface-variant/50 py-2 px-3 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="layers">layers</span>
-<span className="font-label-caps text-label-caps">Synthesis Studio</span>
-</a>
-<a className="flex items-center gap-3 text-on-surface-variant/70 dark:text-on-surface-variant/50 hover:bg-surface-variant/50 py-2 px-3 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="history">history</span>
-<span className="font-label-caps text-label-caps">Memory Timeline</span>
-</a>
-</nav>
-<button className="mt-auto bg-primary text-on-primary py-4 px-6 rounded-xl font-label-caps text-label-caps hover:opacity-90 transition-opacity">
-            New Synthesis
-        </button>
-</aside>
+      <Sidebar activePage="canvas" />
 {/* Top: TopAppBar & Command Layer */}
-<header className="fixed top-0 left-64 right-0 z-40 bg-surface/60 backdrop-blur-2xl px-margin-page h-16 flex items-center justify-between">
+<header className="fixed top-0 left-0 md:left-64 right-0 z-40 bg-surface/60 backdrop-blur-2xl px-6 md:px-margin-page h-16 flex items-center justify-between">
 <div className="flex-1 max-w-2xl">
 <div className="relative group">
 <span className="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/50" data-icon="flare">flare</span>
@@ -74,9 +43,9 @@ export default function ResearchCanvasPage() {
 </div>
 </header>
 {/* Main Content Area */}
-<main className="ml-64 pt-16 h-screen overflow-hidden flex">
+<main className="ml-0 md:ml-64 pt-16 h-screen overflow-hidden flex">
 {/* Left Sub-Panel: Floating Source Dock */}
-<section className="w-72 border-r border-outline-variant/20 flex flex-col p-6 bg-surface-container-low/30">
+<section className="hidden lg:flex w-60 xl:w-72 border-r border-outline-variant/20 flex-col p-6 bg-surface-container-low/30">
 <div className="mb-6 flex items-center justify-between">
 <h3 className="font-label-caps text-label-caps text-on-surface-variant">Active Sources</h3>
 <span className="material-symbols-outlined text-sm" data-icon="add_circle">add_circle</span>
@@ -116,7 +85,7 @@ export default function ResearchCanvasPage() {
 </div>
 </section>
 {/* Center: Intelligence Canvas */}
-<section className="flex-1 overflow-y-auto px-margin-page py-12 vellum-texture">
+<section className="flex-1 overflow-y-auto px-4 md:px-8 py-12 vellum-texture">
 <div className="max-w-3xl mx-auto space-y-16">
 {/* Thread 1 */}
 <div className="space-y-6">
@@ -151,7 +120,7 @@ export default function ResearchCanvasPage() {
 </div>
 </div>
 {/* Bento Style Synthesis Block */}
-<div className="grid grid-cols-2 gap-gutter-grid">
+<div className="grid grid-cols-1 xl:grid-cols-2 gap-gutter-grid">
 <div className="bg-surface-container p-6 rounded-2xl border border-outline-variant/20">
 <h4 className="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase">Core Vector</h4>
 <p className="font-body-md text-body-md mb-4">Japanese Print Precision: Focus on editorial spacing and high-contrast typography.</p>
@@ -166,7 +135,7 @@ export default function ResearchCanvasPage() {
 </div>
 </section>
 {/* Right: Context Panel */}
-<section className="w-80 border-l border-outline-variant/20 p-6 bg-surface-bright flex flex-col">
+<section className="hidden xl:flex w-72 xl:w-80 border-l border-outline-variant/20 p-6 bg-surface-bright/80 backdrop-blur-xl flex-col">
 <h3 className="font-label-caps text-label-caps text-on-surface-variant mb-6">Context Lens</h3>
 {/* Knowledge Graph Placeholder */}
 <div className="aspect-square bg-surface-container rounded-xl relative overflow-hidden mb-8 border border-outline-variant/10">

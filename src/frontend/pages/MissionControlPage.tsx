@@ -34,10 +34,10 @@ export default function MissionControlPage() {
   }, []);
 
   return (
-    <div className="bg-surface text-on-surface w-full min-h-screen">
+    <div className="bg-transparent text-on-surface w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `body {
-    background-color: #fcf9f1;
+    background-color: transparent;
     -webkit-font-smoothing: antialiased
     }
 .paper-grain {
@@ -56,24 +56,27 @@ export default function MissionControlPage() {
         <div className="max-w-[1280px] mx-auto px-margin-page pt-12">
           {/* Hero Section */}
           <section className="mb-16">
-            <p className="font-label-caps text-label-caps text-secondary mb-2">INTELLIGENCE OPERATING SYSTEM</p>
-            <h2 className="font-display-hero text-display-hero text-on-surface mb-4">Welcome back, {userName}</h2>
-            <div className="h-px w-24 bg-outline-variant mb-8"></div>
+            <p className="font-label-caps text-label-caps text-secondary mb-2 uppercase tracking-widest">Your Research Dashboard</p>
+            <h2 className="font-display-hero text-display-hero text-on-surface mb-3">Welcome back, {userName} 👋</h2>
+            <p className="font-body-lg text-[16px] text-on-surface-variant mb-8 max-w-lg">Here's what's happening in your research workspace. Pick up where you left off or start something new.</p>
           </section>
 
-          {/* Graph stats banner */}
-          <div className="grid grid-cols-3 gap-6 mb-12 bg-white/40 backdrop-blur-md p-6 rounded-2xl border border-surface-variant/40 max-w-3xl">
+          {/* Stats bar */}
+          <div className="grid grid-cols-3 gap-6 mb-12 bg-white/60 backdrop-blur-md p-6 rounded-2xl border border-outline-variant/20 shadow-sm max-w-3xl">
             <div>
-              <p className="font-mono-ui text-[10px] text-on-surface-variant/60 uppercase">Indexed Nodes</p>
+              <p className="text-[11px] text-on-surface-variant font-medium uppercase tracking-wider mb-1">Files Indexed</p>
               <h4 className="font-headline-md text-headline-md text-secondary font-bold">{stats.nodes}</h4>
+              <p className="text-[11px] text-on-surface-variant/60 mt-0.5">across all projects</p>
             </div>
             <div>
-              <p className="font-mono-ui text-[10px] text-on-surface-variant/60 uppercase">Semantic Edges</p>
+              <p className="text-[11px] text-on-surface-variant font-medium uppercase tracking-wider mb-1">AI Connections</p>
               <h4 className="font-headline-md text-headline-md text-secondary font-bold">{stats.edges}</h4>
+              <p className="text-[11px] text-on-surface-variant/60 mt-0.5">ideas linked together</p>
             </div>
             <div>
-              <p className="font-mono-ui text-[10px] text-on-surface-variant/60 uppercase">Entropy Index</p>
-              <h4 className="font-headline-md text-headline-md text-secondary font-bold">{stats.entropy}</h4>
+              <p className="text-[11px] text-on-surface-variant font-medium uppercase tracking-wider mb-1">AI Confidence</p>
+              <h4 className="font-headline-md text-headline-md text-secondary font-bold">{Math.round((1 - stats.entropy) * 100)}%</h4>
+              <p className="text-[11px] text-on-surface-variant/60 mt-0.5">synthesis accuracy</p>
             </div>
           </div>
 
@@ -81,7 +84,7 @@ export default function MissionControlPage() {
           <div className="grid grid-cols-12 gap-gutter-grid">
             {/* Continue Workspace */}
             <div className="col-span-12 md:col-span-8 flex flex-col gap-gutter-grid">
-              <h3 className="font-label-caps text-label-caps text-on-surface-variant/60">CONTINUE WORKSPACE</h3>
+              <h3 className="font-label-caps text-label-caps text-on-surface-variant font-semibold tracking-wide">CONTINUE RESEARCH</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter-grid">
                 {/* Card 1 */}
                 <div onClick={() => navigate('/research-canvas')} className="group relative bg-white border border-surface-variant p-8 rounded-2xl paper-grain hover:border-primary/30 transition-all duration-500 overflow-hidden cursor-pointer">
@@ -118,22 +121,22 @@ export default function MissionControlPage() {
               </div>
             </div>
 
-            {/* Intelligence Recommendations */}
+            {/* AI Recommendations */}
             <div className="col-span-12 md:col-span-4 flex flex-col gap-gutter-grid">
-              <h3 className="font-label-caps text-label-caps text-on-surface-variant/60">INTELLIGENCE VECTORS</h3>
+              <h3 className="font-label-caps text-label-caps text-on-surface-variant font-semibold tracking-wide">AI SUGGESTIONS</h3>
               <div className="bg-tertiary-container/30 border border-secondary-container/20 p-8 rounded-3xl relative overflow-hidden">
                 <div className="relative z-10">
                   <span className="material-symbols-outlined text-tertiary mb-4">auto_awesome</span>
-                  <h4 className="font-headline-md text-headline-md text-on-tertiary-container mb-4">Semantic Bridge Detected</h4>
-                  <p className="font-body-md text-xs text-on-tertiary-container/80 mb-6">Your recent search on \'Mindfulness\' overlaps 82% with your \'Acoustic Ecology\' workspace.</p>
-                  <button onClick={() => navigate('/synthesis')} className="w-full bg-white text-tertiary py-3 rounded-xl font-label-caps text-xs border border-tertiary-container hover:shadow-lg transition-all">Review Synthesis</button>
+                  <h4 className="font-headline-md text-headline-md text-on-tertiary-container mb-3">Related topics found</h4>
+                  <p className="font-body-md text-xs text-on-tertiary-container/80 mb-6">Your recent research on "Mindfulness" shares 82% of themes with your "Acoustic Ecology" project. Explore the overlap.</p>
+                  <button onClick={() => navigate('/synthesis')} className="w-full bg-white text-tertiary py-3 rounded-xl font-label-caps text-xs border border-tertiary-container hover:shadow-lg transition-all">View AI Insights</button>
                 </div>
                 <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-tertiary/10 rounded-full blur-3xl"></div>
               </div>
-              <div className="bg-surface-container p-6 rounded-2xl border border-surface-variant">
-                <h5 className="font-label-caps text-label-caps mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-sm">trending_up</span>
-                  Emerging Clusters
+              <div className="bg-white/70 backdrop-blur-sm p-6 rounded-2xl border border-outline-variant/20 shadow-sm">
+                <h5 className="font-label-caps text-label-caps mb-4 flex items-center gap-2 text-on-surface">
+                  <span className="material-symbols-outlined text-sm text-secondary">trending_up</span>
+                  Trending in Your Library
                 </h5>
                 <ul className="space-y-4">
                   <li className="flex items-center justify-between cursor-pointer hover:text-primary" onClick={() => navigate('/search')}>
@@ -152,11 +155,11 @@ export default function MissionControlPage() {
               </div>
             </div>
 
-            {/* Recent Discoveries */}
+            {/* Recent Files */}
             <div className="col-span-12 mt-12">
               <div className="flex justify-between items-end mb-8">
-                <h3 className="font-label-caps text-label-caps text-on-surface-variant/60">RECENT DISCOVERIES</h3>
-                <a className="font-label-caps text-label-caps text-primary hover:underline transition-all cursor-pointer" onClick={() => navigate('/collections')}>View Archive</a>
+                <h3 className="font-label-caps text-label-caps text-on-surface font-semibold tracking-wide">RECENTLY UPLOADED</h3>
+                <button className="font-label-caps text-label-caps text-secondary hover:underline transition-all cursor-pointer" onClick={() => navigate('/ingestion')}>View All Files →</button>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter-grid">
                 {/* Source DNA Card 1 */}
@@ -215,24 +218,24 @@ export default function MissionControlPage() {
         </div>
       </main>
 
-      {/* Floating Bottom Command Bar */}
-      <nav className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex justify-between gap-gutter-grid items-center bg-surface-bright/40 backdrop-blur-3xl border border-white/20 shadow-2xl rounded-full px-8 py-4 w-auto min-w-[420px] glass-edge">
-        <div onClick={() => navigate('/copilot')} className="flex flex-col items-center text-primary bg-primary-container/30 rounded-full px-4 py-1 scale-105 active:scale-95 duration-200 cursor-pointer">
-          <span className="material-symbols-outlined">terminal</span>
-          <span className="font-mono-ui text-mono-ui">Command</span>
-        </div>
-        <div onClick={() => navigate('/ingestion')} className="flex flex-col items-center text-on-secondary-container/60 hover:bg-white/10 transition-all cursor-pointer px-4 py-1 rounded-full">
-          <span className="material-symbols-outlined">inventory</span>
-          <span className="font-mono-ui text-mono-ui">Sources</span>
-        </div>
-        <div onClick={() => navigate('/knowledge')} className="flex flex-col items-center text-on-secondary-container/60 hover:bg-white/10 transition-all cursor-pointer px-4 py-1 rounded-full">
-          <span className="material-symbols-outlined">visibility</span>
-          <span className="font-mono-ui text-mono-ui">Context</span>
-        </div>
-        <div onClick={() => navigate('/settings')} className="flex flex-col items-center text-on-secondary-container/60 hover:bg-white/10 transition-all cursor-pointer px-4 py-1 rounded-full">
-          <span className="material-symbols-outlined">filter_list</span>
-          <span className="font-mono-ui text-mono-ui">Filter</span>
-        </div>
+      {/* Floating Quick-Access Bar */}
+      <nav className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex gap-2 items-center bg-white/80 backdrop-blur-3xl border border-outline-variant/20 shadow-2xl rounded-full px-4 py-3">
+        <button onClick={() => navigate('/copilot')} className="flex flex-col items-center text-secondary bg-secondary/10 rounded-full px-5 py-2 text-[11px] font-medium hover:bg-secondary/20 transition-all gap-1">
+          <span className="material-symbols-outlined text-[20px]">smart_toy</span>
+          <span>AI Chat</span>
+        </button>
+        <button onClick={() => navigate('/ingestion')} className="flex flex-col items-center text-on-surface-variant hover:text-secondary hover:bg-surface-container/60 transition-all px-5 py-2 rounded-full text-[11px] font-medium gap-1">
+          <span className="material-symbols-outlined text-[20px]">upload_file</span>
+          <span>Upload</span>
+        </button>
+        <button onClick={() => navigate('/knowledge')} className="flex flex-col items-center text-on-surface-variant hover:text-secondary hover:bg-surface-container/60 transition-all px-5 py-2 rounded-full text-[11px] font-medium gap-1">
+          <span className="material-symbols-outlined text-[20px]">hub</span>
+          <span>Knowledge Map</span>
+        </button>
+        <button onClick={() => navigate('/synthesis')} className="flex flex-col items-center text-on-surface-variant hover:text-secondary hover:bg-surface-container/60 transition-all px-5 py-2 rounded-full text-[11px] font-medium gap-1">
+          <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
+          <span>AI Insights</span>
+        </button>
       </nav>
 
       {/* Footer */}

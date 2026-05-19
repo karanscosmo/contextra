@@ -20,12 +20,11 @@ export default function Logo({ className = '', size = 'md', animate = false }: L
     }
   }
 
-  // Animation CSS styles: float, glow, orbital shimmer
+  // Clean high-contrast container that works on both light and dark backgrounds
   const containerClasses = [
-    "relative inline-flex items-center justify-center overflow-hidden rounded-lg",
-    "border border-white/10 dark:border-white/5 bg-neutral-900/40 backdrop-blur-md shadow-lg",
-    "transition-all duration-500 ease-out hover:scale-105 hover:border-primary/40",
-    "hover:shadow-[0_0_20px_rgba(99,102,241,0.25)]",
+    "relative inline-flex items-center justify-center overflow-hidden rounded-xl",
+    "bg-white border border-outline-variant/30 shadow-sm",
+    "transition-all duration-300 ease-out hover:scale-105 hover:shadow-md",
     animate ? "animate-orbital-float" : "",
     className
   ].filter(Boolean).join(" ");
@@ -35,19 +34,13 @@ export default function Logo({ className = '', size = 'md', animate = false }: L
       className={containerClasses}
       style={{ width: sizePx, height: sizePx }}
     >
-      {/* Orbital shimmer sheen layer */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 via-transparent to-purple-500/15 pointer-events-none mix-blend-overlay"></div>
-      
-      {/* Real logo image with adaptive filters for graphite dark mode and light mode */}
+      {/* Real logo image */}
       <img 
         src="/logo/logo.jpg" 
         alt="Contextra" 
-        className="w-full h-full object-cover rounded-lg dark:opacity-90 dark:brightness-105 dark:contrast-100"
+        className="w-full h-full object-cover rounded-xl"
         loading="eager"
       />
-      
-      {/* Soft overlay gradient border */}
-      <div className="absolute inset-0 rounded-lg border border-indigo-500/10 pointer-events-none"></div>
     </div>
   );
 }
