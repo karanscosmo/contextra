@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import firebaseConfig from '../../../firebase-applet-config.json';
+import firebaseConfig from '../../firebase-applet-config.json';
 import fs from 'fs';
 import path from 'path';
 
@@ -23,6 +23,46 @@ function buildMockDb() {
           }),
           set: async (data: any) => {
             dbStore[pathStr] = { ...data, id };
+            return { writeTime: new Date() };
+          },
+          update: async (data: any) => {
+            const current = dbStore[pathStr] || {};
+            const updated = { ...current };
+            for (const key of Object.keys(data)) {
+              const val = data[key];
+              if (val && typeof val === 'object' && val.constructor && (val.constructor.name === 'FieldValue' || val.constructor.name === 'Object')) {
+                if (key === 'logs') {
+                  const currentLogs = Array.isArray(updated.logs) ? updated.logs : [];
+                  const elements = (val as any)._elements || (val as any)._values || [];
+                  if (Array.isArray(elements) && elements.length > 0) {
+                    updated.logs = [...currentLogs, ...elements];
+                  } else {
+                    let foundStr = '';
+                    try {
+                      foundStr = JSON.stringify(val);
+                    } catch(e){}
+                    if (foundStr.includes('Planning')) {
+                      updated.logs = [...currentLogs, `[${new Date().toLocaleTimeString()}] Planning research steps...`];
+                    } else if (foundStr.includes('Extracting')) {
+                      updated.logs = [...currentLogs, `[${new Date().toLocaleTimeString()}] Extracting semantic entities...`];
+                    } else if (foundStr.includes('nodes')) {
+                      updated.logs = [...currentLogs, `[${new Date().toLocaleTimeString()}] Saving nodes to graph...`];
+                    } else if (foundStr.includes('complete')) {
+                      updated.logs = [...currentLogs, 'Research cycle complete.'];
+                    } else if (foundStr.includes('Error')) {
+                      updated.logs = [...currentLogs, 'An error occurred during research.'];
+                    } else {
+                      updated.logs = [...currentLogs, 'Activity logged.'];
+                    }
+                  }
+                }
+              } else if (key === 'logs' && Array.isArray(val)) {
+                updated.logs = [...(Array.isArray(updated.logs) ? updated.logs : []), ...val];
+              } else {
+                updated[key] = val;
+              }
+            }
+            dbStore[pathStr] = updated;
             return { writeTime: new Date() };
           },
           delete: async () => {

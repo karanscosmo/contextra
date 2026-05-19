@@ -1,5 +1,5 @@
 // Verification and Integration Test script for Contextra OS
-import { adminDb } from '../src/backend/lib/firebase-admin';
+import { adminDb } from '../api/lib/firebase-admin';
 
 async function runTests() {
   console.log('[TEST] Initiating Contextra Integration Verification...');

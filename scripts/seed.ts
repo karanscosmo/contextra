@@ -1,5 +1,5 @@
 // Seeding Script for Contextra OS Firestore
-import { adminDb } from '../src/backend/lib/firebase-admin';
+import { adminDb } from '../api/lib/firebase-admin';
 
 const WORKSPACE_ID = 'default_workspace';
 
