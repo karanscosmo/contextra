@@ -220,10 +220,20 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const { path, navigate } = useRouter();
 
   useEffect(() => {
-    return onAuthStateChanged(auth, (u) => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
     });
+
+    // safety timeout fallback (3 seconds) to prevent loading screen hang
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+
+    return () => {
+      unsubscribe();
+      clearTimeout(timer);
+    };
   }, []);
 
   const publicRoutes = ['/', '/landing', '/login', '/signup', '/pricing', '/about', '/docs', '/contact'];
