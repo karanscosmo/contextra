@@ -2,22 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/server.cjs",
+      "src": "src/backend/index.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "dist/server.cjs"
+      "dest": "src/backend/index.ts"
     },
     {
       "src": "/socket.io/(.*)",
-      "dest": "dist/server.cjs"
+      "dest": "src/backend/index.ts"
     },
     {
       "src": "/(.*)",
-      "dest": "dist/server.cjs"
+      "dest": "src/backend/index.ts"
     }
   ]
 }
