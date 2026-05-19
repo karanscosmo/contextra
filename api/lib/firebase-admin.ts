@@ -1,7 +1,9 @@
 import admin from 'firebase-admin';
-import firebaseConfig from '../../firebase-applet-config.json';
 import fs from 'fs';
 import path from 'path';
+
+const configPath = path.resolve(process.cwd(), 'firebase-applet-config.json');
+const firebaseConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 let adminDb: any;
 let adminAuth: any;
