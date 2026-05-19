@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 
 export default function IngestionHubPage() {
   return (
@@ -28,54 +30,8 @@ export default function IngestionHubPage() {
     background: linear-gradient(90deg, #e5deff 0%, #5e578f 100%)
     }` }} />
       
-      
-{/* Top Navigation Shell */}
-<nav className="bg-surface/60 dark:bg-surface-dim/60 backdrop-blur-2xl flex justify-between items-center px-margin-page py-unit h-16 w-full docked full-width top-0 sticky z-40">
-<div className="font-headline-md text-headline-md tracking-tighter text-on-surface">Contextra</div>
-<div className="hidden md:flex gap-8 items-center">
-<span className="text-on-surface-variant/60 font-label-caps text-label-caps hover:text-primary transition-colors duration-300 cursor-pointer">Intelligence Canvas</span>
-<span className="text-on-surface-variant/60 font-label-caps text-label-caps hover:text-primary transition-colors duration-300 cursor-pointer">Knowledge Constellation</span>
-<span className="text-primary font-bold font-label-caps text-label-caps cursor-pointer">Source Hub</span>
-</div>
-<div className="flex items-center gap-4">
-<span className="material-symbols-outlined text-primary cursor-pointer hover:scale-95 transition-transform">flare</span>
-<span className="material-symbols-outlined text-primary cursor-pointer hover:scale-95 transition-transform">notifications_none</span>
-<span className="material-symbols-outlined text-primary cursor-pointer hover:scale-95 transition-transform">account_circle</span>
-</div>
-</nav>
-{/* Sidebar Shell (Hidden on Mobile) */}
-<aside className="hidden lg:flex flex-col h-screen w-64 fixed left-0 top-0 z-30 bg-surface-container-low py-margin-page px-6 border-r border-outline-variant/30">
-<div className="mb-12">
-<h1 className="font-headline-md text-headline-md text-on-surface">Contextra</h1>
-<p className="font-label-caps text-[10px] uppercase tracking-widest text-on-surface-variant/50">Vellum Workspace</p>
-</div>
-<div className="flex flex-col gap-2 flex-grow">
-<a className="flex items-center gap-4 px-4 py-3 text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all rounded-lg" href="#">
-<span className="material-symbols-outlined">space_dashboard</span>
-<span className="font-label-caps text-label-caps">Intelligence Canvas</span>
-</a>
-<a className="flex items-center gap-4 px-4 py-3 text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all rounded-lg" href="#">
-<span className="material-symbols-outlined">hub</span>
-<span className="font-label-caps text-label-caps">Knowledge Constellation</span>
-</a>
-<a className="flex items-center gap-4 px-4 py-3 text-primary border-r-2 border-primary font-bold bg-surface-variant/30 rounded-lg" href="#">
-<span className="material-symbols-outlined">folder_open</span>
-<span className="font-label-caps text-label-caps">Source Hub</span>
-</a>
-<a className="flex items-center gap-4 px-4 py-3 text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all rounded-lg" href="#">
-<span className="material-symbols-outlined">layers</span>
-<span className="font-label-caps text-label-caps">Synthesis Studio</span>
-</a>
-<a className="flex items-center gap-4 px-4 py-3 text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all rounded-lg" href="#">
-<span className="material-symbols-outlined">history</span>
-<span className="font-label-caps text-label-caps">Memory Timeline</span>
-</a>
-</div>
-<button className="mt-auto bg-on-surface text-surface py-4 px-6 rounded-xl font-label-caps text-label-caps flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-<span className="material-symbols-outlined">add</span>
-            New Synthesis
-        </button>
-</aside>
+      <Header />
+      <Sidebar activePage="sources" />
 {/* Main Content Canvas */}
 <main className="lg:pl-64 min-h-screen pt-8 pb-32">
 <div className="max-w-7xl mx-auto px-margin-page">

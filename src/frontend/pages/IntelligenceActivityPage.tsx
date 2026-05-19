@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 
 export default function IntelligenceActivityPage() {
   return (
@@ -16,48 +18,8 @@ export default function IntelligenceActivityPage() {
     text-shadow: 0 0 15px rgba(94, 87, 143, 0.2)
     }` }} />
       
-      
-{/* TopAppBar */}
-<header className="bg-surface/60 backdrop-blur-2xl text-primary font-label-caps text-label-caps docked full-width top-0 sticky z-40 flex justify-between items-center px-margin-page py-unit h-16 w-full">
-<div className="font-headline-md text-headline-md tracking-tighter text-on-surface">Contextra</div>
-<div className="flex items-center gap-6">
-<span className="material-symbols-outlined hover:text-primary transition-colors duration-300 scale-95 transition-transform duration-200 cursor-pointer">flare</span>
-<span className="material-symbols-outlined hover:text-primary transition-colors duration-300 scale-95 transition-transform duration-200 cursor-pointer">notifications_none</span>
-<span className="material-symbols-outlined hover:text-primary transition-colors duration-300 scale-95 transition-transform duration-200 cursor-pointer">account_circle</span>
-</div>
-</header>
-{/* SideNavBar */}
-<nav className="bg-surface-container-low h-screen w-64 fixed left-0 top-0 z-30 flex flex-col py-margin-page px-6 border-r border-outline-variant/30 hidden md:flex">
-<div className="mb-12">
-<h1 className="font-headline-md text-headline-md text-on-surface">Contextra</h1>
-<p className="font-mono-ui text-mono-ui text-on-surface-variant/70 uppercase tracking-widest">Vellum Workspace</p>
-</div>
-<div className="flex flex-col gap-2 flex-grow">
-<button className="flex items-center gap-3 px-4 py-3 rounded-lg text-primary border-r-2 border-primary font-bold bg-surface-variant/50">
-<span className="material-symbols-outlined">space_dashboard</span>
-<span className="font-label-caps text-label-caps">Intelligence Canvas</span>
-</button>
-<button className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all ease-in-out duration-300">
-<span className="material-symbols-outlined">hub</span>
-<span className="font-label-caps text-label-caps">Knowledge Constellation</span>
-</button>
-<button className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all ease-in-out duration-300">
-<span className="material-symbols-outlined">folder_open</span>
-<span className="font-label-caps text-label-caps">Source Hub</span>
-</button>
-<button className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all ease-in-out duration-300">
-<span className="material-symbols-outlined">layers</span>
-<span className="font-label-caps text-label-caps">Synthesis Studio</span>
-</button>
-<button className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all ease-in-out duration-300">
-<span className="material-symbols-outlined">history</span>
-<span className="font-label-caps text-label-caps">Memory Timeline</span>
-</button>
-</div>
-<button className="mt-auto bg-primary text-on-primary font-label-caps text-label-caps py-4 rounded-xl shadow-lg shadow-primary/10 hover:scale-105 active:scale-95 transition-all">
-            New Synthesis
-        </button>
-</nav>
+      <Header />
+      <Sidebar activePage="timeline" />
 {/* Main Content Area */}
 <main className="md:pl-64 min-h-screen">
 {/* SECTION 1: Active Thinking Process View */}

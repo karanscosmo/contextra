@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 
 export default function KnowledgeConstellationPage() {
   return (
@@ -27,52 +29,8 @@ export default function KnowledgeConstellationPage() {
         }
     ` }} />
       
-      
-{/* TopAppBar */}
-<header className="bg-surface/60 backdrop-blur-2xl text-primary font-headline-md docked full-width top-0 sticky z-40 flex justify-between items-center px-margin-page py-unit h-16 w-full">
-<div className="flex items-center gap-4">
-<span className="font-headline-md text-headline-md tracking-tighter text-on-surface">Contextra</span>
-</div>
-<div className="flex items-center gap-6">
-<button className="material-symbols-outlined text-on-surface-variant/60 hover:text-primary transition-colors duration-300 scale-95 active:scale-90" data-icon="flare">flare</button>
-<button className="material-symbols-outlined text-on-surface-variant/60 hover:text-primary transition-colors duration-300 scale-95 active:scale-90" data-icon="notifications_none">notifications_none</button>
-<button className="material-symbols-outlined text-on-surface-variant/60 hover:text-primary transition-colors duration-300 scale-95 active:scale-90" data-icon="account_circle">account_circle</button>
-</div>
-</header>
-<div className="flex h-[calc(100vh-64px)] w-full relative">
-{/* SideNavBar */}
-<nav className="bg-surface-container-low h-screen w-64 fixed left-0 top-0 z-30 flex flex-col h-full py-margin-page px-6 border-r border-outline-variant/30">
-<div className="mb-12">
-<h1 className="font-headline-md text-headline-md text-on-surface">Contextra</h1>
-<p className="font-label-caps text-label-caps text-on-surface-variant/70 mt-1 uppercase tracking-widest">Vellum Workspace</p>
-</div>
-<div className="flex flex-col gap-2 flex-grow">
-<a className="flex items-center gap-3 py-3 px-4 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="space_dashboard">space_dashboard</span>
-<span className="font-label-caps text-label-caps">Intelligence Canvas</span>
-</a>
-<a className="flex items-center gap-3 py-3 px-4 rounded-lg text-primary border-r-2 border-primary font-bold bg-surface-variant/30 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="hub">hub</span>
-<span className="font-label-caps text-label-caps">Knowledge Constellation</span>
-</a>
-<a className="flex items-center gap-3 py-3 px-4 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="folder_open">folder_open</span>
-<span className="font-label-caps text-label-caps">Source Hub</span>
-</a>
-<a className="flex items-center gap-3 py-3 px-4 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="layers">layers</span>
-<span className="font-label-caps text-label-caps">Synthesis Studio</span>
-</a>
-<a className="flex items-center gap-3 py-3 px-4 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 transition-all" href="#">
-<span className="material-symbols-outlined" data-icon="history">history</span>
-<span className="font-label-caps text-label-caps">Memory Timeline</span>
-</a>
-</div>
-<button className="mt-auto mb-8 w-full py-4 bg-secondary text-on-secondary rounded-xl font-label-caps text-label-caps flex items-center justify-center gap-2 hover:bg-secondary/90 transition-transform active:scale-95 shadow-lg shadow-secondary/20">
-<span className="material-symbols-outlined text-[18px]" data-icon="add">add</span>
-                New Synthesis
-            </button>
-</nav>
+      <Header />
+      <Sidebar activePage="constellation" />
 {/* Intelligence Canvas */}
 <main className="ml-64 flex-grow relative vellum-texture constellation-gradient overflow-hidden">
 {/* Constellation Background Elements */}
@@ -197,7 +155,7 @@ export default function KnowledgeConstellationPage() {
 <span className="font-mono-ui text-mono-ui">Filter</span>
 </button>
 </div>
-</div>
+
 {/* Background Decoration */}
 <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[-1] opacity-20">
 <div className="absolute top-[10%] left-[20%] w-[400px] h-[400px] bg-secondary-fixed rounded-full blur-[120px]"></div>

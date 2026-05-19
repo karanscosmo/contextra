@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Logo from '../components/Logo';
 import { useRouter } from '../App';
 import { auth } from '../lib/firebase';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
+import Logo from '../components/Logo';
 
 export default function MissionControlPage() {
   const { navigate } = useRouter();
@@ -46,61 +48,8 @@ export default function MissionControlPage() {
     box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2)
     }` }} />
       
-      {/* TopAppBar */}
-      <header className="bg-surface/60 backdrop-blur-2xl text-primary font-headline-md docked top-0 sticky z-40 flex justify-between items-center px-margin-page py-unit h-16 w-full border-b border-outline-variant/10">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/mission-control')}>
-          <Logo size="xs" animate={true} />
-          <div className="font-headline-md text-headline-md tracking-tighter text-on-surface">Contextra</div>
-        </div>
-        <div className="flex items-center gap-6">
-          <nav className="hidden md:flex gap-8 items-center text-sm font-label-caps">
-            <a className="text-primary font-bold hover:text-primary transition-colors cursor-pointer" onClick={() => navigate('/mission-control')}>Mission Control</a>
-            <a className="text-on-surface-variant/60 hover:text-primary transition-colors cursor-pointer" onClick={() => navigate('/insights')}>Analytics</a>
-            <a className="text-on-surface-variant/60 hover:text-primary transition-colors cursor-pointer" onClick={() => navigate('/collections')}>Library</a>
-          </nav>
-          <div className="flex items-center gap-4">
-            <span className="material-symbols-outlined scale-95 transition-transform duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/settings')}>flare</span>
-            <span className="material-symbols-outlined scale-95 transition-transform duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/notifications')}>notifications_none</span>
-            <span className="material-symbols-outlined scale-95 transition-transform duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/profile')}>account_circle</span>
-          </div>
-        </div>
-      </header>
-
-      {/* SideNavBar (Desktop Only) */}
-      <aside className="hidden md:flex flex-col h-full py-margin-page px-6 bg-surface-container-low h-screen w-64 fixed left-0 top-0 z-30 border-r border-outline-variant/30">
-        <div className="mb-12">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/mission-control')}>
-            <Logo size="sm" animate={true} />
-            <h1 className="font-headline-md text-headline-md text-on-surface">Contextra</h1>
-          </div>
-          <p className="font-label-caps text-label-caps opacity-60 mt-1">Vellum Workspace</p>
-        </div>
-        <nav className="flex flex-col gap-2 flex-grow">
-          <button onClick={() => navigate('/mission-control')} className="flex items-center gap-3 px-4 py-3 rounded-lg text-primary border-r-2 border-primary font-bold hover:bg-surface-variant/50 transition-all text-left">
-            <span className="material-symbols-outlined">space_dashboard</span>
-            <span className="font-label-caps text-label-caps">Intelligence Canvas</span>
-          </button>
-          <button onClick={() => navigate('/knowledge')} className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-primary transition-all text-left">
-            <span className="material-symbols-outlined">hub</span>
-            <span className="font-label-caps text-label-caps">Knowledge Constellation</span>
-          </button>
-          <button onClick={() => navigate('/ingestion')} className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-primary transition-all text-left">
-            <span className="material-symbols-outlined">folder_open</span>
-            <span className="font-label-caps text-label-caps">Source Hub</span>
-          </button>
-          <button onClick={() => navigate('/synthesis')} className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-primary transition-all text-left">
-            <span className="material-symbols-outlined">layers</span>
-            <span className="font-label-caps text-label-caps">Synthesis Studio</span>
-          </button>
-          <button onClick={() => navigate('/activity')} className="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant/70 hover:bg-surface-variant/50 hover:text-primary transition-all text-left">
-            <span className="material-symbols-outlined">history</span>
-            <span className="font-label-caps text-label-caps">Memory Timeline</span>
-          </button>
-        </nav>
-        <button onClick={() => navigate('/onboarding')} className="mt-auto bg-primary text-on-primary py-4 px-6 rounded-xl font-label-caps text-label-caps tracking-widest hover:bg-on-surface transition-colors">
-          New Synthesis
-        </button>
-      </aside>
+      <Header activeTab="control" />
+      <Sidebar activePage="canvas" />
 
       {/* Main Canvas */}
       <main className="md:pl-64 min-h-screen pb-40">
