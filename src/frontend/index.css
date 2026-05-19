@@ -84,6 +84,20 @@
   --spacing-gutter-grid: 24px;
   --spacing-dock-padding: 12px;
   --spacing-canvas-safe-area: 40px;
+
+  /* Premium Micro-Animations */
+  --animate-orbital-float: orbital-float 6s ease-in-out infinite;
+  
+  @keyframes orbital-float {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+      box-shadow: 0 4px 20px -2px rgba(99, 102, 241, 0.15);
+    }
+    50% {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 12px 28px 2px rgba(99, 102, 241, 0.25);
+    }
+  }
 }
 
 @layer base {

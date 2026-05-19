@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { auth, db } from './lib/firebase';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
+import Logo from './components/Logo';
 
 // Page Imports
 import AdminMarketplacePage from './pages/AdminMarketplacePage';
@@ -28,6 +29,16 @@ import SettingsPage from './pages/SettingsPage';
 import SignupPage from './pages/SignupPage';
 import SourceDetailPage from './pages/SourceDetailPage';
 import SynthesisStudioPage from './pages/SynthesisStudioPage';
+
+// New Pages
+import ProfilePage from './pages/ProfilePage';
+import NotificationsPage from './pages/NotificationsPage';
+import PricingPage from './pages/PricingPage';
+import AboutPage from './pages/AboutPage';
+import DocsPage from './pages/DocsPage';
+import ContactPage from './pages/ContactPage';
+import OnboardingPage from './pages/OnboardingPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 // Simple Router Context for SPA Navigation
 type RouterContextType = {
@@ -71,7 +82,7 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
           const htmlContent = anchor.innerHTML.toLowerCase();
 
           // Standard Navigation Keywords mapping
-          if (text.includes('intelligence canvas') || text.includes('mission control') || htmlContent.includes('analytics') || text === 'terminal') {
+          if (text.includes('intelligence canvas') || text.includes('mission control') || text.includes('dashboard') || htmlContent.includes('analytics') || text === 'terminal') {
             navigate('/mission-control');
           } else if (text.includes('knowledge constellation') || text.includes('knowledge') || htmlContent.includes('hub')) {
             navigate('/knowledge');
@@ -91,7 +102,7 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
             navigate('/admin');
           } else if (text.includes('login') || text.includes('sign in') || text.includes('begin synthesis')) {
             navigate('/login');
-          } else if (text.includes('signup') || text.includes('register') || text.includes('create account') || text.includes('reserve access')) {
+          } else if (text.includes('signup') || text.includes('register') || text.includes('create account') || text.includes('reserve access') || text.includes('initialize workspace')) {
             navigate('/signup');
           } else if (text.includes('export') || text.includes('share')) {
             navigate('/export');
@@ -119,6 +130,20 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
             navigate('/search');
           } else if (text.includes('source detail')) {
             navigate('/source-detail');
+          } else if (text.includes('about')) {
+            navigate('/about');
+          } else if (text.includes('pricing')) {
+            navigate('/pricing');
+          } else if (text.includes('docs') || text.includes('documentation')) {
+            navigate('/docs');
+          } else if (text.includes('contact')) {
+            navigate('/contact');
+          } else if (text.includes('onboarding')) {
+            navigate('/onboarding');
+          } else if (text.includes('profile')) {
+            navigate('/profile');
+          } else if (text.includes('notifications')) {
+            navigate('/notifications');
           } else {
             // Try matching folder paths
             if (href.includes('landing_page') || href.includes('landing')) {
@@ -201,7 +226,7 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
     });
   }, []);
 
-  const publicRoutes = ['/', '/landing', '/login', '/signup'];
+  const publicRoutes = ['/', '/landing', '/login', '/signup', '/pricing', '/about', '/docs', '/contact'];
 
   useEffect(() => {
     if (!loading && !user && !publicRoutes.includes(path)) {
@@ -211,10 +236,10 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
 
   if (loading) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-surface text-on-surface font-mono-ui text-mono-ui">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="tracking-widest uppercase text-xs">Initializing Contextra OS...</p>
+      <div className="h-screen w-screen flex items-center justify-center bg-[#fcf9f1] dark:bg-[#121212] text-on-surface font-mono-ui text-mono-ui">
+        <div className="text-center space-y-6">
+          <Logo size="xl" animate={true} className="mx-auto" />
+          <p className="tracking-[0.2em] uppercase text-[10px] text-neutral-400 dark:text-neutral-500 animate-pulse">Initializing Contextra OS...</p>
         </div>
       </div>
     );
@@ -237,6 +262,7 @@ const AppContent = () => {
       return <SignupPage />;
     case '/mission-control':
     case '/workspace':
+    case '/dashboard':
       return <MissionControlPage />;
     case '/agents':
       return <AutonomousAgentsPage />;
@@ -251,8 +277,10 @@ const AppContent = () => {
     case '/insights':
       return <GeneratedInsightsPage />;
     case '/copilot':
+    case '/chat':
       return <GlobalCopilotCollaborationPage />;
     case '/ingestion':
+    case '/sources':
       return <IngestionHubPage />;
     case '/models':
       return <IntegrationsModelsPage />;
@@ -261,16 +289,19 @@ const AppContent = () => {
     case '/setup':
       return <IntelligenceSetupPage />;
     case '/knowledge':
+    case '/constellation':
       return <KnowledgeConstellationPage />;
     case '/mobile-constellation':
       return <MobileConstellationPage />;
     case '/mobile-mission-control':
       return <MobileMissionControlPage />;
     case '/research-canvas':
+    case '/canvas':
       return <ResearchCanvasPage />;
     case '/research-playback':
       return <ResearchPlaybackPage />;
     case '/search':
+    case '/semantic-search':
       return <SearchUniversePage />;
     case '/settings':
       return <SettingsPage />;
@@ -280,16 +311,92 @@ const AppContent = () => {
       return <SynthesisStudioPage />;
     case '/admin':
       return <AdminMarketplacePage />;
+    case '/profile':
+      return <ProfilePage />;
+    case '/notifications':
+      return <NotificationsPage />;
+    case '/pricing':
+      return <PricingPage />;
+    case '/about':
+      return <AboutPage />;
+    case '/docs':
+      return <DocsPage />;
+    case '/contact':
+      return <ContactPage />;
+    case '/onboarding':
+      return <OnboardingPage />;
     default:
-      // Fallback to landing page if invalid path
-      return <LandingPagePage />;
+      return <NotFoundPage />;
   }
 };
 
 export default function App() {
+  useEffect(() => {
+    const updateLogos = () => {
+      const headings = document.querySelectorAll('h1, h2, h3, header div, aside div, footer div, nav div, span');
+      headings.forEach(el => {
+        if (
+          el.childNodes.length === 1 && 
+          el.childNodes[0].nodeType === Node.TEXT_NODE && 
+          el.textContent?.trim() === 'Contextra' && 
+          !el.closest('.relative.inline-flex') && 
+          !(el as HTMLElement).dataset.logoInjected
+        ) {
+          (el as HTMLElement).dataset.logoInjected = 'true';
+          
+          let sizeClass = 'w-6 h-6 mr-2';
+          if (el.tagName === 'H1' || el.classList.contains('text-headline-lg')) {
+            sizeClass = 'w-8 h-8 mr-3';
+          } else if (el.classList.contains('text-headline-md')) {
+            sizeClass = 'w-6 h-6 mr-2';
+          } else if (el.tagName === 'SPAN') {
+            sizeClass = 'w-5 h-5 mr-1.5';
+          }
+
+          const logoImg = document.createElement('img');
+          logoImg.src = '/logo/logo.jpg';
+          logoImg.className = `${sizeClass} rounded-md object-cover inline-block align-middle mix-blend-screen dark:mix-blend-normal transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(99, 102, 241, 0.3)] animate-orbital-float`;
+          
+          const textVal = el.textContent;
+          el.innerHTML = '';
+          el.appendChild(logoImg);
+          
+          const textSpan = document.createElement('span');
+          textSpan.textContent = textVal;
+          textSpan.className = 'align-middle font-semibold';
+          el.appendChild(textSpan);
+          
+          el.classList.add('inline-flex', 'items-center', 'align-middle');
+        }
+      });
+    };
+
+    updateLogos();
+    
+    const observer = new MutationObserver(updateLogos);
+    observer.observe(document.body, { childList: true, subtree: true });
+    
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <RouterProvider>
       <AuthGuard>
+        {/* Global Video Background */}
+        <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none w-full h-full bg-[#fcf9f1]">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover scale-125 origin-center brightness-110 contrast-90 saturate-75 opacity-[0.16] blur-[5px] transition-all duration-1000"
+          >
+            <source src="/videomp_.mp4" type="video/mp4" />
+          </video>
+          {/* Overlays for readable text and premium styling */}
+          <div className="absolute inset-0 bg-[#fcf9f1]/70 dark:bg-[#121212]/80 mix-blend-normal" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,#fcf9f1_90%)] dark:bg-[radial-gradient(circle_at_center,transparent_30%,#121212_90%)]" />
+        </div>
         <AppContent />
       </AuthGuard>
     </RouterProvider>
