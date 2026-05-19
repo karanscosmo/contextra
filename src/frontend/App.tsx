@@ -365,7 +365,7 @@ export default function App() {
 
           const logoImg = document.createElement('img');
           logoImg.src = '/logo/logo.jpg';
-          logoImg.className = `${sizeClass} rounded-md object-cover inline-block align-middle mix-blend-screen dark:mix-blend-normal transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(99, 102, 241, 0.3)] animate-orbital-float`;
+          logoImg.className = `${sizeClass} rounded-md object-cover inline-block align-middle transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(99,102,241,0.3)] animate-orbital-float`;
           
           const textVal = el.textContent;
           el.innerHTML = '';

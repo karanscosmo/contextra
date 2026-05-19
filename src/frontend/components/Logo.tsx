@@ -42,7 +42,7 @@ export default function Logo({ className = '', size = 'md', animate = false }: L
       <img 
         src="/logo/logo.jpg" 
         alt="Contextra" 
-        className="w-full h-full object-cover dark:opacity-90 dark:brightness-105 dark:contrast-100 mix-blend-screen dark:mix-blend-normal"
+        className="w-full h-full object-cover rounded-lg dark:opacity-90 dark:brightness-105 dark:contrast-100"
         loading="eager"
       />
       
