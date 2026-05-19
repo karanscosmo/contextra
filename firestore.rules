@@ -1,0 +1,159 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Role-based lookup from workspace members
+    // members is a map of { uid: role }
+    function getWorkspaceRole(workspaceId) {
+      return get(/databases/$(database)/documents/workspaces/$(workspaceId)).data.members[request.auth.uid];
+    }
+
+    function isMember(workspaceId) {
+      return isSignedIn() && get(/databases/$(database)/documents/workspaces/$(workspaceId)).data.members.keys().hasAny([request.auth.uid]);
+    }
+
+    function isWorkspaceAdmin(workspaceId) {
+      return isMember(workspaceId) && (getWorkspaceRole(workspaceId) == 'ADMIN' || getWorkspaceRole(workspaceId) == 'OWNER');
+    }
+
+    // --- User Rules ---
+    match /users/{userId} {
+      function isValidUser(data) {
+        return data.uid == request.auth.uid
+          && data.email is string && data.email.size() <= 256
+          && (data.displayName == null || (data.displayName is string && data.displayName.size() <= 128))
+          && data.role in ['OWNER', 'ADMIN', 'RESEARCHER', 'VIEWER']
+          && data.keys().hasAll(['uid', 'email', 'role']);
+      }
+
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(incoming()) && incoming().role == 'RESEARCHER'; // Default role
+      allow update: if isOwner(userId) && isValidUser(incoming()) 
+        && incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'activeWorkspaceId', 'updatedAt'])
+        && incoming().role == existing().role; // Immutable role via self-update
+    }
+
+    // --- Organization Rules ---
+    match /organizations/{orgId} {
+      function isValidOrg(data) {
+        return data.name is string && data.name.size() > 0 && data.name.size() <= 256
+          && data.ownerId == request.auth.uid;
+      }
+      allow get: if isSignedIn();
+      allow create: if isVerified() && isValidOrg(incoming());
+      allow update: if isVerified() && existing().ownerId == request.auth.uid && isValidOrg(incoming())
+        && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'slug']);
+      allow delete: if false; // Deletion handled via support
+    }
+
+    // --- Workspace Rules ---
+    match /workspaces/{workspaceId} {
+      function isValidWorkspace(data) {
+        return data.name is string && data.name.size() <= 128
+          && data.orgId is string
+          && data.type in ['PERSONAL', 'TEAM', 'ENTERPRISE']
+          && data.members is map;
+      }
+      allow get: if isMember(workspaceId);
+      allow create: if isVerified() && isValidWorkspace(incoming());
+      allow update: if isWorkspaceAdmin(workspaceId) && isValidWorkspace(incoming())
+        && (
+          // Action: Rename/Settings
+          incoming().diff(existing()).affectedKeys().hasOnly(['name', 'settings'])
+          || 
+          // Action: Manage Members
+          incoming().diff(existing()).affectedKeys().hasOnly(['members'])
+        );
+    }
+
+    // --- Workspace-Scoped Resources ---
+    match /workspaces/{workspaceId}/{collection}/{docId} {
+      
+      // Generic member access for reading
+      allow read: if isMember(workspaceId);
+
+      // Node Rules
+      match /nodes/{nodeId} {
+        function isValidNode(data) {
+          return data.label is string && data.label.size() <= 256
+            && data.type is string
+            && data.workspaceId == workspaceId
+            && (data.embedding == null || data.embedding is list);
+        }
+        allow create: if isMember(workspaceId) && isValidNode(incoming());
+        allow update: if isMember(workspaceId) && isValidNode(incoming())
+          && incoming().diff(existing()).affectedKeys().hasOnly(['label', 'properties', 'embedding', 'sourceId']);
+      }
+
+      // Edge Rules
+      match /edges/{edgeId} {
+        function isValidEdge(data) {
+          return data.sourceNodeId is string && data.targetNodeId is string
+            && data.relationshipType is string
+            && data.workspaceId == workspaceId;
+        }
+        allow create: if isMember(workspaceId) && isValidEdge(incoming());
+        allow update: if isMember(workspaceId) && isValidEdge(incoming());
+      }
+
+      // Agent Rules
+      match /agents/{agentId} {
+        function isValidAgent(data) {
+          return data.name is string && data.name.size() <= 128
+            && data.workspaceId == workspaceId
+            && data.status in ['IDLE', 'RUNNING', 'FAILED', 'SUCCESS'];
+        }
+        allow create: if isMember(workspaceId) && isValidAgent(incoming());
+        allow update: if isMember(workspaceId) && isValidAgent(incoming())
+          && (
+            // Action: Update Config
+            incoming().diff(existing()).affectedKeys().hasOnly(['name', 'role', 'goals'])
+            ||
+            // Action: Update Status (Agent Engine)
+            incoming().diff(existing()).affectedKeys().hasOnly(['status', 'lastRunAt'])
+          );
+      }
+
+      // Document Rules
+      match /documents/{docId} {
+        function isValidDoc(data) {
+          return data.name is string && data.name.size() <= 256
+            && data.workspaceId == workspaceId
+            && (data.content == null || data.content is string);
+        }
+        allow create: if isMember(workspaceId) && isValidDoc(incoming());
+        allow update: if isMember(workspaceId) && isValidDoc(incoming())
+          && incoming().diff(existing()).affectedKeys().hasOnly(['content', 'summary', 'metadata', 'processed']);
+      }
+    }
+  }
+}

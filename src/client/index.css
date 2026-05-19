@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@200;300;400;600&family=Plus+Jakarta+Sans:wght@400;600&family=JetBrains+Mono:wght@400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #fcf9f1;
+  --color-surface-dim: #dddad2;
+  --color-surface-bright: #fcf9f1;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f7f3eb;
+  --color-surface-container: #f1eee5;
+  --color-surface-container-high: #ebe8e0;
+  --color-surface-container-highest: #e5e2da;
+  --color-on-surface: #1c1c17;
+  --color-on-surface-variant: #444844;
+  --color-inverse-surface: #31312b;
+  --color-inverse-on-surface: #f4f0e8;
+  --color-outline: #757874;
+  --color-outline-variant: #c5c7c2;
+  --color-surface-tint: #5e5f5c;
+  --color-primary: #5e5f5c;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #f8f7f4;
+  --color-on-primary-container: #71716f;
+  --color-inverse-primary: #c7c6c4;
+  --color-secondary: #5e5b7c;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #dbd6fd;
+  --color-on-secondary-container: #5f5b7c;
+  --color-tertiary: #5e578f;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #faf5ff;
+  --color-on-tertiary-container: #716aa3;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+  --color-primary-fixed: #e3e2df;
+  --color-primary-fixed-dim: #c7c6c4;
+  --color-on-primary-fixed: #1a1c1a;
+  --color-on-primary-fixed-variant: #464745;
+  --color-secondary-fixed: #e4dfff;
+  --color-secondary-fixed-dim: #c7c2e8;
+  --color-on-secondary-fixed: #1a1835;
+  --color-on-secondary-fixed-variant: #464363;
+  --color-tertiary-fixed: #e5deff;
+  --color-tertiary-fixed-dim: #c8bffe;
+  --color-on-tertiary-fixed: #1b1247;
+  --color-on-tertiary-fixed-variant: #474075;
+  --color-background: #fcf9f1;
+  --color-on-background: #1c1c17;
+  --color-surface-variant: #e5e2da;
+
+  /* Font Families */
+  --font-headline-lg: "Hanken Grotesk", sans-serif;
+  --font-headline-lg-mobile: "Hanken Grotesk", sans-serif;
+  --font-display-hero: "Hanken Grotesk", sans-serif;
+  --font-headline-md: "Hanken Grotesk", sans-serif;
+  --font-mono-ui: "JetBrains Mono", monospace;
+  --font-body-lg: "Plus Jakarta Sans", sans-serif;
+  --font-body-md: "Plus Jakarta Sans", sans-serif;
+  --font-label-caps: "Plus Jakarta Sans", sans-serif;
+
+  /* Font Sizes */
+  --text-display-hero: 72px;
+  --text-headline-lg: 40px;
+  --text-headline-lg-mobile: 32px;
+  --text-headline-md: 24px;
+  --text-body-lg: 18px;
+  --text-body-md: 16px;
+  --text-mono-ui: 13px;
+  --text-label-caps: 12px;
+
+  /* Radiuses */
+  --radius-sm: 0.25rem;
+  --radius-default: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Spacings */
+  --spacing-unit: 8px;
+  --spacing-margin-page: 64px;
+  --spacing-gutter-grid: 24px;
+  --spacing-dock-padding: 12px;
+  --spacing-canvas-safe-area: 40px;
+}
+
+@layer base {
+  body {
+    @apply antialiased;
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

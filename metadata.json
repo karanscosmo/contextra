@@ -1,0 +1,8 @@
+{
+  "name": "CONTEXTRA",
+  "description": "Semantic Intelligence Operating System for research, knowledge mapping, and autonomous agent orchestration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

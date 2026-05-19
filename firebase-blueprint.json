@@ -1,0 +1,182 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Core user profile data restricted to the owner.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["OWNER", "ADMIN", "RESEARCHER", "VIEWER"] },
+        "activeWorkspaceId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Organization": {
+      "title": "Organization",
+      "description": "Top-level entity for multi-tenancy.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "ownerId"]
+    },
+    "Workspace": {
+      "title": "Workspace",
+      "description": "Collaborative environment within an organization or personal.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orgId": { "type": "string" },
+        "name": { "type": "string" },
+        "members": { "type": "object" },
+        "settings": { "type": "object" },
+        "type": { "type": "string", "enum": ["PERSONAL", "TEAM", "ENTERPRISE"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "orgId"]
+    },
+    "Project": {
+      "title": "Research Project",
+      "description": "A collection of research sessions and findings.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["ACTIVE", "ARCHIVED", "COMPLETED"] },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "workspaceId"]
+    },
+    "SemanticNode": {
+      "title": "Semantic Node",
+      "description": "An entity or concept in the knowledge graph.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "label": { "type": "string" },
+        "type": { "type": "string" },
+        "properties": { "type": "object" },
+        "embedding": { "type": "array" },
+        "sourceId": { "type": "string" },
+        "vectorId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["label", "type", "workspaceId"]
+    },
+    "SemanticEdge": {
+      "title": "Semantic Edge",
+      "description": "A relationship between two semantic nodes.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "sourceNodeId": { "type": "string" },
+        "targetNodeId": { "type": "string" },
+        "relationshipType": { "type": "string" },
+        "strength": { "type": "number" },
+        "metadata": { "type": "object" }
+      },
+      "required": ["sourceNodeId", "targetNodeId", "relationshipType", "workspaceId"]
+    },
+    "Agent": {
+      "title": "Autonomous Agent",
+      "description": "Configuration for a research agent.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "goals": { "type": "array" },
+        "status": { "type": "string", "enum": ["IDLE", "RUNNING", "FAILED", "SUCCESS"] },
+        "lastRunAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "workspaceId"]
+    },
+    "AgentRun": {
+      "title": "Agent Run",
+      "description": "An execution instance of an agent.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "agentId": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "status": { "type": "string" },
+        "logs": { "type": "array" },
+        "findings": { "type": "array" },
+        "startedAt": { "type": "string", "format": "date-time" },
+        "endedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["agentId", "workspaceId"]
+    },
+    "Document": {
+      "title": "Document",
+      "description": "A source document (PDF, Text, etc.).",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspaceId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "url": { "type": "string" },
+        "content": { "type": "string" },
+        "summary": { "type": "string" },
+        "metadata": { "type": "object" },
+        "processed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "workspaceId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/organizations/{orgId}": {
+      "schema": "Organization",
+      "description": "Enterprise organizations"
+    },
+    "/workspaces/{workspaceId}": {
+      "schema": "Workspace",
+      "description": "Collaboration workspaces"
+    },
+    "/workspaces/{workspaceId}/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Projects within a workspace"
+    },
+    "/workspaces/{workspaceId}/nodes/{nodeId}": {
+      "schema": "SemanticNode",
+      "description": "Semantic knowledge graph nodes"
+    },
+    "/workspaces/{workspaceId}/edges/{edgeId}": {
+      "schema": "SemanticEdge",
+      "description": "Semantic knowledge graph relationships"
+    },
+    "/workspaces/{workspaceId}/agents/{agentId}": {
+      "schema": "Agent",
+      "description": "Autonomous agents"
+    },
+    "/workspaces/{workspaceId}/agentRuns/{runId}": {
+      "schema": "AgentRun",
+      "description": "Agent execution history"
+    },
+    "/workspaces/{workspaceId}/documents/{docId}": {
+      "schema": "Document",
+      "description": "Uploaded source documents"
+    }
+  }
+}
