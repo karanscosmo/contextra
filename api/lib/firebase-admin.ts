@@ -2,8 +2,13 @@ import admin from 'firebase-admin';
 import fs from 'fs';
 import path from 'path';
 
-const configPath = path.resolve(process.cwd(), 'firebase-applet-config.json');
-const firebaseConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+let firebaseConfig: any = {};
+try {
+  const configPath = path.resolve(process.cwd(), 'firebase-applet-config.json');
+  firebaseConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+} catch (e) {
+  console.warn("[FIREBASE ADMIN] Could not read firebase-applet-config.json. Using empty config.");
+}
 
 let adminDb: any;
 let adminAuth: any;
@@ -32,7 +37,7 @@ function buildMockDb() {
             const updated = { ...current };
             for (const key of Object.keys(data)) {
               const val = data[key];
-              if (val && typeof val === 'object' && val.constructor && (val.constructor.name === 'FieldValue' || val.constructor.name === 'Object')) {
+              if (val && typeof val === 'object' && val.constructor && (val.constructor.name === 'FieldValue' || val.constructor.name === 'Object' || val.constructor.name === 'ArrayUnionTransform' || val.constructor.name === 'FieldTransform')) {
                 if (key === 'logs') {
                   const currentLogs = Array.isArray(updated.logs) ? updated.logs : [];
                   const elements = (val as any)._elements || (val as any)._values || [];
@@ -116,6 +121,7 @@ function buildMockDb() {
 }
 
 const hasCredentials = !!(
+  firebaseConfig.projectId ||
   process.env.GOOGLE_APPLICATION_CREDENTIALS ||
   process.env.FIREBASE_SERVICE_ACCOUNT ||
   fs.existsSync(path.join(process.cwd(), 'service-account.json')) ||

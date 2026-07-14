@@ -1,44 +1,53 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext, Suspense } from 'react';
 import { auth, db } from './lib/firebase';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import Logo from './components/Logo';
 
-// Page Imports
-import AdminMarketplacePage from './pages/AdminMarketplacePage';
-import AutonomousAgentsPage from './pages/AutonomousAgentsPage';
-import CitationExplorerPage from './pages/CitationExplorerPage';
-import CollaborationStudioPage from './pages/CollaborationStudioPage';
-import CollectionsHubPage from './pages/CollectionsHubPage';
-import ExportSharePage from './pages/ExportSharePage';
-import GeneratedInsightsPage from './pages/GeneratedInsightsPage';
-import GlobalCopilotCollaborationPage from './pages/GlobalCopilotCollaborationPage';
-import IngestionHubPage from './pages/IngestionHubPage';
-import IntegrationsModelsPage from './pages/IntegrationsModelsPage';
-import IntelligenceActivityPage from './pages/IntelligenceActivityPage';
-import IntelligenceSetupPage from './pages/IntelligenceSetupPage';
-import KnowledgeConstellationPage from './pages/KnowledgeConstellationPage';
-import LandingPagePage from './pages/LandingPagePage';
-import LoginPage from './pages/LoginPage';
-import MissionControlPage from './pages/MissionControlPage';
-import MobileConstellationPage from './pages/MobileConstellationPage';
-import MobileMissionControlPage from './pages/MobileMissionControlPage';
-import ResearchCanvasPage from './pages/ResearchCanvasPage';
-import ResearchPlaybackPage from './pages/ResearchPlaybackPage';
-import SearchUniversePage from './pages/SearchUniversePage';
-import SettingsPage from './pages/SettingsPage';
-import SignupPage from './pages/SignupPage';
-import SourceDetailPage from './pages/SourceDetailPage';
-import SynthesisStudioPage from './pages/SynthesisStudioPage';
+// Lazy-loaded Page Imports
+const AdminMarketplacePage = React.lazy(() => import('./pages/AdminMarketplacePage'));
+const AutonomousAgentsPage = React.lazy(() => import('./pages/AutonomousAgentsPage'));
+const CitationExplorerPage = React.lazy(() => import('./pages/CitationExplorerPage'));
+const CollaborationStudioPage = React.lazy(() => import('./pages/CollaborationStudioPage'));
+const CollectionsHubPage = React.lazy(() => import('./pages/CollectionsHubPage'));
+const ExportSharePage = React.lazy(() => import('./pages/ExportSharePage'));
+const GeneratedInsightsPage = React.lazy(() => import('./pages/GeneratedInsightsPage'));
+const GlobalCopilotCollaborationPage = React.lazy(() => import('./pages/GlobalCopilotCollaborationPage'));
+const IngestionHubPage = React.lazy(() => import('./pages/IngestionHubPage'));
+const IntegrationsModelsPage = React.lazy(() => import('./pages/IntegrationsModelsPage'));
+const IntelligenceActivityPage = React.lazy(() => import('./pages/IntelligenceActivityPage'));
+const IntelligenceSetupPage = React.lazy(() => import('./pages/IntelligenceSetupPage'));
+const KnowledgeConstellationPage = React.lazy(() => import('./pages/KnowledgeConstellationPage'));
+const LandingPagePage = React.lazy(() => import('./pages/LandingPagePage'));
+const LoginPage = React.lazy(() => import('./pages/LoginPage'));
+const MissionControlPage = React.lazy(() => import('./pages/MissionControlPage'));
+const MobileConstellationPage = React.lazy(() => import('./pages/MobileConstellationPage'));
+const MobileMissionControlPage = React.lazy(() => import('./pages/MobileMissionControlPage'));
+const ResearchCanvasPage = React.lazy(() => import('./pages/ResearchCanvasPage'));
+const ResearchPlaybackPage = React.lazy(() => import('./pages/ResearchPlaybackPage'));
+const SearchUniversePage = React.lazy(() => import('./pages/SearchUniversePage'));
+const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
+const SignupPage = React.lazy(() => import('./pages/SignupPage'));
+const SourceDetailPage = React.lazy(() => import('./pages/SourceDetailPage'));
+const SynthesisStudioPage = React.lazy(() => import('./pages/SynthesisStudioPage'));
 
 // New Pages
-import ProfilePage from './pages/ProfilePage';
-import NotificationsPage from './pages/NotificationsPage';
-import PricingPage from './pages/PricingPage';
-import AboutPage from './pages/AboutPage';
-import DocsPage from './pages/DocsPage';
-import ContactPage from './pages/ContactPage';
-import OnboardingPage from './pages/OnboardingPage';
-import NotFoundPage from './pages/NotFoundPage';
+const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
+const NotificationsPage = React.lazy(() => import('./pages/NotificationsPage'));
+const PricingPage = React.lazy(() => import('./pages/PricingPage'));
+const AboutPage = React.lazy(() => import('./pages/AboutPage'));
+const DocsPage = React.lazy(() => import('./pages/DocsPage'));
+const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const OnboardingPage = React.lazy(() => import('./pages/OnboardingPage'));
+const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
+
+const LoadingFallback = () => (
+  <div className="h-screen w-screen flex items-center justify-center bg-[#fcf9f1] text-on-surface font-mono-ui text-mono-ui">
+    <div className="text-center space-y-6">
+      <Logo size="xl" animate={true} className="mx-auto" />
+      <p className="tracking-[0.2em] uppercase text-[10px] text-neutral-400 animate-pulse">Loading...</p>
+    </div>
+  </div>
+);
 
 // Simple Router Context for SPA Navigation
 type RouterContextType = {
@@ -82,11 +91,11 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
           const htmlContent = anchor.innerHTML.toLowerCase();
 
           // Standard Navigation Keywords mapping
-          if (text.includes('intelligence canvas') || text.includes('mission control') || text.includes('dashboard') || htmlContent.includes('analytics') || text === 'terminal') {
+          if (text.includes('intelligence canvas') || text.includes('mission control') || text.includes('dashboard') || htmlContent.includes('analytics') || text.includes('terminal')) {
             navigate('/mission-control');
           } else if (text.includes('knowledge constellation') || text.includes('knowledge') || htmlContent.includes('hub')) {
             navigate('/knowledge');
-          } else if (text.includes('source hub') || text.includes('ingest') || text.includes('vault') || htmlContent.includes('inventory') || text === 'sources') {
+          } else if (text.includes('source hub') || text.includes('ingest') || text.includes('vault') || htmlContent.includes('inventory') || text.includes('sources') || htmlContent.includes('folder_open')) {
             navigate('/ingestion');
           } else if (text.includes('synthesis studio') || text.includes('synthesis') || htmlContent.includes('auto_awesome')) {
             navigate('/synthesis');
@@ -114,7 +123,7 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
             navigate('/collections');
           } else if (text.includes('insights') || text.includes('insights dashboard')) {
             navigate('/insights');
-          } else if (text.includes('copilot') || text.includes('global copilot') || text === 'context') {
+          } else if (text.includes('copilot') || text.includes('global copilot') || text.includes('context')) {
             navigate('/copilot');
           } else if (text.includes('models') || text.includes('integrations')) {
             navigate('/models');
@@ -379,7 +388,9 @@ export default function App() {
           {/* Soft radial vignette for premium depth */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(252,249,241,0)_0%,rgba(250,246,234,0.55)_100%)]" />
         </div>
-        <AppContent />
+        <Suspense fallback={<LoadingFallback />}>
+          <AppContent />
+        </Suspense>
       </AuthGuard>
     </RouterProvider>
   );

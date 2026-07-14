@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function ResearchPlaybackPage() {
   return (
-    <div className="bg-background text-on-surface font-body-md min-h-screen overflow-x-hidden selection:bg-tertiary-fixed selection:text-on-tertiary-fixed w-full min-h-screen">
+    <div className="bg-background text-on-surface font-body-md min-h-screen overflow-x-hidden selection:bg-tertiary-fixed selection:text-on-tertiary-fixed w-full">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `.glass-edge {
     border: 0.5px solid rgba(255, 255, 255, 0.2)

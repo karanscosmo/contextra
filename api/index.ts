@@ -1,16 +1,14 @@
+import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import { Server } from 'socket.io';
 import http from 'http';
-import dotenv from 'dotenv';
 
 import { ResearchAgent } from './agents/researchAgent.js';
 import { extractEntities, copilotChat } from './services/gemini.js';
 import { adminDb } from './lib/firebase-admin.js';
-
-dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
@@ -64,8 +62,8 @@ app.post('/api/semantic/graph/query', async (req, res) => {
     ];
 
     res.json({ nodes, edges });
-  } catch (err: any) {
-    res.status(500).json({ error: 'Graph query failed: ' + err.message });
+  } catch (err: unknown) {
+    res.status(500).json({ error: 'Graph query failed: ' + (err instanceof Error ? err.message : String(err)) });
   }
 });
 
@@ -98,9 +96,9 @@ app.post('/api/documents/ingest', async (req, res) => {
       extractedNodesCount: entities.nodes.length,
       docId: 'doc_' + Math.random().toString(36).substr(2,9) 
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Ingestion failed:", err);
-    res.status(500).json({ error: 'Ingestion failed: ' + err.message });
+    res.status(500).json({ error: 'Ingestion failed: ' + (err instanceof Error ? err.message : String(err)) });
   }
 });
 
@@ -120,8 +118,8 @@ app.post('/api/copilot/chat', async (req, res) => {
   try {
     const reply = await copilotChat(history || [], message, context || '');
     res.json({ reply });
-  } catch (err: any) {
-    res.status(500).json({ error: 'Copilot chat failed: ' + err.message });
+  } catch (err: unknown) {
+    res.status(500).json({ error: 'Copilot chat failed: ' + (err instanceof Error ? err.message : String(err)) });
   }
 });
 
@@ -170,6 +168,9 @@ setupVite().then(() => {
       console.log(`[CONTEXTRA] OS active on http://0.0.0.0:${PORT}`);
     });
   }
+}).catch((err: unknown) => {
+  console.error("[CONTEXTRA] Failed to initialize vite/server:", err);
+  process.exit(1);
 });
 
 export default app;

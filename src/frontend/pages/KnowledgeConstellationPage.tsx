@@ -37,10 +37,10 @@ export default function KnowledgeConstellationPage() {
 <div className="absolute inset-0 z-0 opacity-40">
 <svg className="absolute top-0 left-0" height="100%" width="100%">
 <defs>
-<radialgradient cx="50%" cy="50%" id="dotGradient" r="50%">
-<stop offset="0%" stop-color="#5e578f" stop-opacity="0.2"></stop>
-<stop offset="100%" stop-color="#5e578f" stop-opacity="0"></stop>
-</radialgradient>
+<radialGradient cx="50%" cy="50%" id="dotGradient" r="50%">
+<stop offset="0%" stopColor="#5e578f" stopOpacity="0.2"></stop>
+<stop offset="100%" stopColor="#5e578f" stopOpacity="0"></stop>
+</radialGradient>
 </defs>
 <line stroke="#5e578f" strokeDasharray="4 4" strokeWidth="0.5" x1="20%" x2="45%" y1="30%" y2="50%"></line>
 <line stroke="#5e578f" strokeDasharray="4 4" strokeWidth="0.5" x1="45%" x2="70%" y1="50%" y2="25%"></line>

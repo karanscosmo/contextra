@@ -1,3 +1,5 @@
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../lib/firebase';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
@@ -15,58 +17,62 @@ export default function ProfilePage() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (u) => {
-      if (u) {
-        setUser(u);
-        setEmail(u.email || '');
-        // Fetch user data from firestore if exists
+    if (message) {
+      const timer = setTimeout(() => setMessage(''), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+        setEmail(currentUser.email || '');
         try {
-          const userDoc = await getDoc(doc(db, 'users', u.uid));
-          if (userDoc.exists()) {
-            const data = userDoc.data();
-            setName(data.name || '');
-            setRole(data.role || 'strategist');
+          const docRef = doc(db, 'users', currentUser.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setName(docSnap.data().name || '');
+            setRole(docSnap.data().role || 'strategist');
           } else {
-            setName(u.displayName || '');
+            setName(currentUser.displayName || '');
           }
-        } catch (err) {
-          console.error('Error fetching user profile:', err);
+        } catch (e) {
+          console.error(e);
         }
       }
       setLoading(false);
     });
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
-
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) return;
-    setSaving(true);
-    setMessage('');
-    try {
-      await updateDoc(doc(db, 'users', user.uid), {
-        name,
-        role,
-        updatedAt: new Date().toISOString(),
-      });
-      setMessage('Profile updated successfully.');
-      setTimeout(() => setMessage(''), 3000);
-    } catch (err: any) {
-      console.error(err);
-      setMessage('Failed to update: ' + err.message);
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const handleLogout = async () => {
     await auth.signOut();
     navigate('/login');
   };
 
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+    setSaving(true);
+    try {
+      const docRef = doc(db, 'users', user.uid);
+      await updateDoc(docRef, {
+        name,
+        role,
+      });
+      setMessage('Profile updated successfully.');
+    } catch (e: unknown) {
+      console.error(e);
+      setMessage('Error updating profile.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-surface text-on-surface">
+      <div className="min-h-screen flex items-center justify-center bg-transparent text-on-surface">
         <div className="text-center space-y-4">
           <Logo size="lg" animate={true} className="mx-auto" />
           <p className="font-mono-ui text-mono-ui text-neutral-500 uppercase tracking-widest text-xs">Loading profile data...</p>
@@ -76,60 +82,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden min-h-screen flex w-full">
-      {/* Side Navigation Bar */}
-      <aside className="bg-surface-container-low dark:bg-surface-container-lowest h-screen w-64 fixed left-0 top-0 z-30 flex flex-col py-margin-page px-6 border-r border-outline-variant/30">
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-1 cursor-pointer" onClick={() => navigate('/mission-control')}>
-            <Logo size="sm" />
-            <span className="font-headline-md text-headline-md text-on-surface">Contextra</span>
-          </div>
-          <p className="font-mono-ui text-mono-ui opacity-50 uppercase tracking-widest text-[10px]">Vellum Workspace</p>
-        </div>
-        <nav className="flex-grow space-y-2">
-          <button onClick={() => navigate('/mission-control')} className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant/70 font-label-caps text-label-caps hover:bg-surface-variant/50 transition-all rounded-lg">
-            <span className="material-symbols-outlined">space_dashboard</span>
-            Intelligence Canvas
-          </button>
-          <button onClick={() => navigate('/knowledge')} className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant/70 font-label-caps text-label-caps hover:bg-surface-variant/50 transition-all rounded-lg">
-            <span className="material-symbols-outlined">hub</span>
-            Knowledge Constellation
-          </button>
-          <button onClick={() => navigate('/ingestion')} className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant/70 font-label-caps text-label-caps hover:bg-surface-variant/50 transition-all rounded-lg">
-            <span className="material-symbols-outlined">folder_open</span>
-            Source Hub
-          </button>
-          <button onClick={() => navigate('/profile')} className="w-full flex items-center gap-3 px-4 py-3 text-primary border-r-2 border-primary font-bold font-label-caps text-label-caps bg-surface-variant/50 transition-all rounded-lg">
-            <span className="material-symbols-outlined">account_circle</span>
-            Researcher Profile
-          </button>
-          <button onClick={() => navigate('/settings')} className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant/70 font-label-caps text-label-caps hover:bg-surface-variant/50 transition-all rounded-lg">
-            <span className="material-symbols-outlined">settings</span>
-            Workspace Settings
-          </button>
-        </nav>
-        <div className="mt-auto">
-          <button onClick={handleLogout} className="w-full bg-error-container/30 text-error px-4 py-3 text-label-caps font-label-caps rounded-lg hover:bg-error-container transition-all flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-[18px]">logout</span>
-            Terminate Session
-          </button>
-        </div>
-      </aside>
+    <div className="bg-transparent text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container min-h-screen w-full">
+      <Header />
+      <Sidebar activePage="none" />
 
       {/* Main Content Area */}
-      <main className="flex-grow ml-64 overflow-y-auto relative pb-32">
-        <header className="bg-surface/60 backdrop-blur-2xl text-primary docked full-width top-0 sticky z-40 flex justify-between items-center px-margin-page py-unit h-16 w-full border-b border-outline-variant/10">
-          <div className="font-headline-md text-headline-md tracking-tighter text-on-surface">Researcher Profile</div>
-          <div className="flex items-center gap-6">
-            <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors" onClick={() => navigate('/notifications')}>notifications</span>
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-outline-variant cursor-pointer" onClick={() => navigate('/profile')}>
-              <div className="w-full h-full bg-secondary text-on-secondary flex items-center justify-center font-bold text-xs uppercase">
-                {name ? name.substring(0, 2) : 'RX'}
-              </div>
-            </div>
-          </div>
-        </header>
-
+      <main className="lg:pl-64 min-h-screen pt-8 pb-32 relative">
         <div className="max-w-4xl mx-auto px-margin-page py-16 space-y-12">
           <section className="space-y-4">
             <div className="flex items-center gap-6">

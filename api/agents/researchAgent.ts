@@ -1,4 +1,4 @@
-import { extractEntities, getEmbeddings } from '../services/gemini.js';
+import { extractEntities } from '../services/gemini.js';
 import { adminDb } from '../lib/firebase-admin.js';
 import admin from 'firebase-admin';
 
@@ -60,11 +60,11 @@ export class ResearchAgent {
         logs: admin.firestore.FieldValue.arrayUnion("Research cycle complete.")
       });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Agent failed:", error);
       await runRef.update({
         status: 'FAILED',
-        logs: admin.firestore.FieldValue.arrayUnion(`Error: ${error.message}`)
+        logs: admin.firestore.FieldValue.arrayUnion(`Error: ${error instanceof Error ? error.message : String(error)}`)
       });
     }
   }

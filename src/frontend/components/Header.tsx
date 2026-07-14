@@ -11,8 +11,8 @@ export default function Header({ title = 'Contextra', activeTab = 'none' }: Head
   const { navigate } = useRouter();
 
   return (
-    <header className="bg-surface/60 backdrop-blur-2xl text-primary font-headline-md docked top-0 sticky z-40 flex justify-between items-center px-margin-page py-unit h-16 w-full border-b border-outline-variant/10">
-      <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/mission-control')}>
+    <header className="bg-surface/60 backdrop-blur-2xl text-primary font-headline-md top-0 sticky z-40 flex justify-between items-center px-4 md:px-margin-page md:pl-[320px] py-unit h-16 w-full border-b border-outline-variant/10">
+      <div className="flex md:hidden items-center gap-2 cursor-pointer" onClick={() => navigate('/mission-control')}>
         <Logo size="xs" animate={true} />
         <div className="font-headline-md text-headline-md tracking-tighter text-on-surface">Contextra</div>
       </div>
@@ -44,9 +44,9 @@ export default function Header({ title = 'Contextra', activeTab = 'none' }: Head
           </a>
         </nav>
         <div className="flex items-center gap-4">
-          <span className="material-symbols-outlined scale-95 transition-transform duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/settings')}>flare</span>
-          <span className="material-symbols-outlined scale-95 transition-transform duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/notifications')}>notifications_none</span>
-          <span className="material-symbols-outlined scale-95 transition-transform duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/profile')}>account_circle</span>
+          <span className="material-symbols-outlined scale-95 transition-all duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/settings')}>flare</span>
+          <span className="material-symbols-outlined scale-95 transition-all duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/notifications')}>notifications_none</span>
+          <span className="material-symbols-outlined scale-95 transition-all duration-200 cursor-pointer hover:text-primary" onClick={() => navigate('/profile')}>account_circle</span>
         </div>
       </div>
     </header>

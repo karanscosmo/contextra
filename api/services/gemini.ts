@@ -22,7 +22,7 @@ export async function generateSemanticSearchQuery(input: string) {
     Input: "${input}"
     Output JSON format: { "entities": [], "relationships": [], "intent": "" }`
   });
-  return response.text;
+  return response.text ?? '';
 }
 
 export async function getEmbeddings(text: string) {
@@ -30,7 +30,7 @@ export async function getEmbeddings(text: string) {
     model: 'gemini-embedding-2-preview',
     contents: [text]
   });
-  return result.embeddings[0].values;
+  return result.embeddings?.[0]?.values ?? [];
 }
 
 export async function copilotChat(history: any[], message: string, context: string) {
@@ -41,7 +41,7 @@ export async function copilotChat(history: any[], message: string, context: stri
       systemInstruction: "You are the Contextra Semantic Intelligence OS. Use the provided context to answer research questions with high precision and citations."
     }
   });
-  return response.text;
+  return response.text ?? '';
 }
 
 export async function extractEntities(text: string) {

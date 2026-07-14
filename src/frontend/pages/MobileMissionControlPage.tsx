@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function MobileMissionControlPage() {
   return (
-    <div className="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen relative pb-32 overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
+    <div className="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen relative pb-32 overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container w-full">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `
         .material-symbols-outlined {
@@ -34,13 +34,13 @@ export default function MobileMissionControlPage() {
             Contextra
         </div>
 <div className="flex items-center gap-4 text-primary dark:text-primary-fixed-dim">
-<button className="scale-95 transition-transform duration-200 hover:text-primary transition-colors duration-300">
+<button className="scale-95 transition-all duration-200 hover:text-primary">
 <span className="material-symbols-outlined">flare</span>
 </button>
-<button className="scale-95 transition-transform duration-200 hover:text-primary transition-colors duration-300">
+<button className="scale-95 transition-all duration-200 hover:text-primary">
 <span className="material-symbols-outlined">notifications_none</span>
 </button>
-<button className="scale-95 transition-transform duration-200 hover:text-primary transition-colors duration-300">
+<button className="scale-95 transition-all duration-200 hover:text-primary">
 <span className="material-symbols-outlined">account_circle</span>
 </button>
 </div>

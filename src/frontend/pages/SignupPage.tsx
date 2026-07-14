@@ -23,8 +23,9 @@ export default function SignupPage() {
     }
     setLoading(true);
     setError('');
+    let userCredential: any;
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       // Save additional profile parameters in Firestore
@@ -36,16 +37,25 @@ export default function SignupPage() {
       });
 
       navigate('/onboarding');
-    } catch (err: any) {
-      console.error(err);
-      setError(err?.message || 'Failed to establish profile.');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error('Signup failed:', err);
+      // If Auth succeeded but Firestore failed, clean up the Auth user
+      try {
+        if (userCredential?.user) {
+          await userCredential.user.delete();
+        }
+      } catch (cleanupErr) {
+        console.error('Failed to clean up Auth user after Firestore error:', cleanupErr);
+      }
+      setError(errorMessage || 'Failed to establish profile.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-background text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container h-screen w-screen overflow-hidden flex flex-col md:flex-row w-full min-h-screen">
+    <div className="bg-background text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container h-screen w-full overflow-hidden flex flex-col md:flex-row min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `
         .material-symbols-outlined {

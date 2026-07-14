@@ -1,73 +1,22 @@
 import React from 'react';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
 
 export default function IntegrationsModelsPage() {
   return (
-    <div className="antialiased min-h-screen flex flex-col md:flex-row w-full min-h-screen">
+    <div className="bg-transparent text-on-surface antialiased flex flex-col selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `
         body {
-            background-color: theme('colors.background');
-            color: theme('colors.on-background');
+            background-color: transparent;
         }
     ` }} />
       
+      <Header />
+      <Sidebar activePage="none" />
       
-{/* SideNavBar (Web) */}
-<nav className="hidden md:flex flex-col h-screen w-64 left-0 fixed bg-surface-container-low border-r border-outline-variant/30 py-8 px-4 z-40">
-<div className="mb-8 px-2">
-<h1 className="font-headline-md text-headline-md text-on-surface">Contextra</h1>
-<p className="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Intelligence Workspace</p>
-</div>
-<button className="w-full bg-primary text-on-primary font-body-md text-body-md py-3 rounded-lg mb-8 flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors duration-200">
-<span className="material-symbols-outlined text-[20px]" style={{ "fontVariationSettings": "'FILL' 1" }}>add</span>
-            New Synthesis
-        </button>
-<div className="flex-1 flex flex-col gap-2">
-<a className="text-on-surface-variant hover:text-on-surface font-body-md text-body-md py-3 px-3 rounded-lg flex items-center gap-3 hover:bg-surface-variant/50 transition-all duration-200" href="#">
-<span className="material-symbols-outlined text-[20px]">analytics</span>
-                Intelligence Canvas
-            </a>
-<a className="text-on-surface-variant hover:text-on-surface font-body-md text-body-md py-3 px-3 rounded-lg flex items-center gap-3 hover:bg-surface-variant/50 transition-all duration-200" href="#">
-<span className="material-symbols-outlined text-[20px]">hub</span>
-                Knowledge Constellation
-            </a>
-<a className="text-on-primary-fixed-variant font-medium bg-primary-container rounded-lg font-body-md text-body-md py-3 px-3 flex items-center gap-3" href="#">
-<span className="material-symbols-outlined text-[20px]" style={{ "fontVariationSettings": "'FILL' 1" }}>inventory_2</span>
-                Source Hub
-            </a>
-<a className="text-on-surface-variant hover:text-on-surface font-body-md text-body-md py-3 px-3 rounded-lg flex items-center gap-3 hover:bg-surface-variant/50 transition-all duration-200" href="#">
-<span className="material-symbols-outlined text-[20px]">auto_awesome</span>
-                Synthesis Studio
-            </a>
-<a className="text-on-surface-variant hover:text-on-surface font-body-md text-body-md py-3 px-3 rounded-lg flex items-center gap-3 hover:bg-surface-variant/50 transition-all duration-200" href="#">
-<span className="material-symbols-outlined text-[20px]">history</span>
-                Memory Timeline
-            </a>
-</div>
-<div className="mt-auto pt-4 border-t border-outline-variant/30 flex items-center gap-3 px-2 cursor-pointer group">
-<div className="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline-variant group-hover:border-primary transition-colors">
-<img alt="User Profile" className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZXYIlt0mzoLG3HbgaDXhfXj4k7iecu7Z2AQt0KF5itFAhpXlT89vbooi40XoSqTy_RQG-qT2EisdjbxVbXSM2jyaFduMqcw_hMNZhMLeCK1uxt_qDePdVwPuZT6-8i0Pj9glXYCg6b9rJiopiXlfG8-qpKGlCwn1aXLDI4omRiY-GZ_QxR87PQoyIoC0qYQAD3vMa-u5fAekSWS-VSViFlF7PSV7r6a0573B1ocMWAwcIAbtutpyXXmChOuLKC62rpajD-8QEdpA"/>
-</div>
-<div className="flex-1">
-<p className="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Account</p>
-<p className="font-mono-ui text-mono-ui text-on-surface-variant text-xs">Settings &amp; Billing</p>
-</div>
-<span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">more_vert</span>
-</div>
-</nav>
-{/* TopNavBar (Mobile) */}
-<header className="md:hidden w-full top-0 sticky bg-background/80 backdrop-blur-xl bg-background z-40">
-<div className="flex justify-between items-center px-6 py-4 w-full">
-<span className="material-symbols-outlined text-on-surface text-[24px]">menu</span>
-<span className="font-headline-md text-headline-md font-light tracking-tight text-on-surface">Contextra</span>
-<div className="flex items-center gap-4 text-primary">
-<span className="material-symbols-outlined text-[24px]">notifications</span>
-<span className="material-symbols-outlined text-[24px]">account_circle</span>
-</div>
-</div>
-</header>
-{/* Main Content Canvas */}
-<main className="flex-1 md:ml-64 px-4 md:px-margin-page py-8 md:py-16 max-w-[1280px] mx-auto w-full pb-32">
+      {/* Main Content Canvas */}
+      <main className="lg:pl-64 px-4 md:px-margin-page py-8 md:py-16 max-w-[1280px] mx-auto w-full pb-32">
 {/* Header Section */}
 <header className="mb-16">
 <h1 className="font-display-hero text-display-hero text-on-surface mb-4">Integration Hub</h1>
@@ -300,7 +249,7 @@ export default function IntegrationsModelsPage() {
 <span className="material-symbols-outlined">terminal</span>
 <span className="font-mono-ui text-mono-ui hidden sm:inline">Terminal</span>
 </a>
-<a className="bg-tertiary-container text-on-tertiary-container rounded-full px-6 py-2 flex items-center gap-2 Active: scale-95 transition-transform duration-200" href="#">
+<a className="bg-tertiary-container text-on-tertiary-container rounded-full px-6 py-2 flex items-center gap-2 active:scale-95 transition-transform duration-200" href="#">
 <span className="material-symbols-outlined" style={{ "fontVariationSettings": "'FILL' 1" }}>folder_open</span>
 <span className="font-mono-ui text-mono-ui hidden sm:inline">Sources</span>
 </a>

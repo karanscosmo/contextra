@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function MobileConstellationPage() {
   return (
-    <div className="bg-surface-variant flex items-center justify-center min-h-screen text-on-surface antialiased font-body-md selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
+    <div className="bg-surface-variant flex items-center justify-center min-h-screen text-on-surface antialiased font-body-md selection:bg-secondary-container selection:text-on-secondary-container w-full">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `
         .material-symbols-outlined {

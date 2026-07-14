@@ -3,7 +3,7 @@ import Sidebar from '../components/Sidebar';
 
 export default function GeneratedInsightsPage() {
   return (
-    <div className="bg-transparent text-on-surface min-h-screen w-full min-h-screen">
+    <div className="bg-transparent text-on-surface min-h-screen w-full">
       {/* Page Custom Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `body {
     background-color: transparent
