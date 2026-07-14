@@ -1,7 +1,8 @@
 import React, { useState, useEffect, createContext, useContext, Suspense } from 'react';
-import { auth, db } from './lib/firebase';
+import { auth } from './lib/firebase';
 import { onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
 import Logo from './components/Logo';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Lazy-loaded Page Imports
 const AdminMarketplacePage = React.lazy(() => import('./pages/AdminMarketplacePage'));
@@ -29,8 +30,6 @@ const SettingsPage = React.lazy(() => import('./pages/SettingsPage'));
 const SignupPage = React.lazy(() => import('./pages/SignupPage'));
 const SourceDetailPage = React.lazy(() => import('./pages/SourceDetailPage'));
 const SynthesisStudioPage = React.lazy(() => import('./pages/SynthesisStudioPage'));
-
-// New Pages
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
 const NotificationsPage = React.lazy(() => import('./pages/NotificationsPage'));
 const PricingPage = React.lazy(() => import('./pages/PricingPage'));
@@ -49,7 +48,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Simple Router Context for SPA Navigation
 type RouterContextType = {
   path: string;
   navigate: (to: string) => void;
@@ -78,7 +76,6 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
     setPath(to);
   };
 
-  // Intercept all static anchor tags and redirect them through router
   useEffect(() => {
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -90,7 +87,6 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
           const text = anchor.textContent?.trim().toLowerCase() || '';
           const htmlContent = anchor.innerHTML.toLowerCase();
 
-          // Standard Navigation Keywords mapping
           if (text.includes('intelligence canvas') || text.includes('mission control') || text.includes('dashboard') || htmlContent.includes('analytics') || text.includes('terminal')) {
             navigate('/mission-control');
           } else if (text.includes('knowledge constellation') || text.includes('knowledge') || htmlContent.includes('hub')) {
@@ -154,7 +150,6 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
           } else if (text.includes('notifications')) {
             navigate('/notifications');
           } else {
-            // Try matching folder paths
             if (href.includes('landing_page') || href.includes('landing')) {
               navigate('/landing');
             } else if (href.includes('login')) {
@@ -222,41 +217,54 @@ export const RouterProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Route Protective Guard
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [initError, setInitError] = useState<string | null>(null);
   const { path, navigate } = useRouter();
 
   useEffect(() => {
-    // 1. Register the safety timeout fallback first to guarantee it runs
+    let cancelled = false;
+
     const timer = setTimeout(() => {
-      console.warn("AuthGuard safety fallback timeout triggered.");
-      setLoading(false);
+      if (!cancelled) {
+        console.warn('[CONTEXTRA] Auth safety timeout fired — forcing loading=false');
+        setLoading(false);
+      }
     }, 3000);
 
-    let unsubscribe: any = () => {};
+    let unsubscribe: (() => void) | null = null;
 
-    // 2. Try subscribing to auth changes safely
     try {
       if (auth && typeof auth.onAuthStateChanged === 'function') {
-        unsubscribe = auth.onAuthStateChanged((u: any) => {
-          setUser(u);
-          setLoading(false);
+        console.log('[CONTEXTRA] AuthGuard: using auth.onAuthStateChanged');
+        unsubscribe = auth.onAuthStateChanged((u: FirebaseUser | null) => {
+          if (!cancelled) {
+            console.log('[CONTEXTRA] AuthGuard: auth state changed:', u ? 'user' : 'no user');
+            setUser(u);
+            setLoading(false);
+          }
         });
       } else {
+        console.log('[CONTEXTRA] AuthGuard: using firebase onAuthStateChanged');
         unsubscribe = onAuthStateChanged(auth, (u) => {
-          setUser(u);
-          setLoading(false);
+          if (!cancelled) {
+            console.log('[CONTEXTRA] AuthGuard: Firebase auth state changed:', u ? 'user' : 'no user');
+            setUser(u);
+            setLoading(false);
+          }
         });
       }
     } catch (err) {
-      console.error("AuthGuard failed to subscribe to Firebase Auth:", err);
-      // Immediately clear loading screen if subscription fails
-      setLoading(false);
+      console.error('[CONTEXTRA] AuthGuard: failed to subscribe:', err);
+      if (!cancelled) {
+        setInitError(err instanceof Error ? err.message : String(err));
+        setLoading(false);
+      }
     }
 
     return () => {
+      cancelled = true;
       if (typeof unsubscribe === 'function') {
         unsubscribe();
       }
@@ -268,9 +276,33 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!loading && !user && !publicRoutes.includes(path)) {
+      console.log('[CONTEXTRA] AuthGuard: redirecting to /login (no user)');
       navigate('/login');
     }
   }, [user, loading, path, navigate]);
+
+  if (initError) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center bg-[#fcf9f1] text-on-surface font-mono-ui text-mono-ui p-8">
+        <div className="text-center space-y-6 max-w-md">
+          <span className="material-symbols-outlined text-5xl text-error">warning</span>
+          <h1 className="font-headline-lg text-headline-lg text-on-surface">Initialization Error</h1>
+          <p className="text-on-surface-variant text-sm leading-relaxed">
+            Contextra encountered an error during startup. Please check your configuration and refresh.
+          </p>
+          <pre className="text-xs text-error bg-error-container/10 p-4 rounded-xl text-left overflow-auto max-h-24">
+            {initError}
+          </pre>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-on-surface text-surface py-3 px-8 rounded-full font-label-caps text-label-caps hover:opacity-90 transition-all"
+          >
+            Reload
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -286,7 +318,6 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-// Main Routing Router Switcher
 const AppContent = () => {
   const { path } = useRouter();
 
@@ -370,28 +401,27 @@ const AppContent = () => {
 
 export default function App() {
   return (
-    <RouterProvider>
-      <AuthGuard>
-        {/* Global Video Background — Light Mode Ambient */}
-        <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none w-full h-full bg-[#faf7ef]">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover scale-110 origin-center brightness-150 contrast-75 saturate-50 opacity-[0.28] blur-[2px] transition-all duration-1000"
-          >
-            <source src="/videomp_.mp4" type="video/mp4" />
-          </video>
-          {/* Warm ivory overlay — keeps content readable, adds warmth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#fdf9f0]/60 via-[#fcf8ed]/40 to-[#faf6ea]/60" />
-          {/* Soft radial vignette for premium depth */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(252,249,241,0)_0%,rgba(250,246,234,0.55)_100%)]" />
-        </div>
-        <Suspense fallback={<LoadingFallback />}>
-          <AppContent />
-        </Suspense>
-      </AuthGuard>
-    </RouterProvider>
+    <ErrorBoundary>
+      <RouterProvider>
+        <AuthGuard>
+          <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none select-none w-full h-full bg-[#faf7ef]">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover scale-110 origin-center brightness-150 contrast-75 saturate-50 opacity-[0.28] blur-[2px] transition-all duration-1000"
+            >
+              <source src="/videomp_.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-b from-[#fdf9f0]/60 via-[#fcf8ed]/40 to-[#faf6ea]/60" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(252,249,241,0)_0%,rgba(250,246,234,0.55)_100%)]" />
+          </div>
+          <Suspense fallback={<LoadingFallback />}>
+            <AppContent />
+          </Suspense>
+        </AuthGuard>
+      </RouterProvider>
+    </ErrorBoundary>
   );
 }
