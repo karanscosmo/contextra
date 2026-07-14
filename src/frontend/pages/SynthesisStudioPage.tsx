@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function SynthesisStudioPage() {
-  return (
-    <div className="bg-white/60 backdrop-blur-sm font-body-md text-on-surface selection:bg-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.glass-sheet {
+  useEffect(() => {
+    document.title = 'Contextra - Synthesis Studio';
+  }, []);
+
+  useStyleBlock(`.glass-sheet {
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(229, 226, 218, 0.6)
@@ -32,7 +34,10 @@ export default function SynthesisStudioPage() {
     width: 2px;
     height: 24px;
     background-color: #5e5f5c
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-white/60 backdrop-blur-sm font-body-md text-on-surface selection:bg-secondary-container w-full min-h-screen">
       
       
       <Header />

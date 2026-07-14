@@ -17,6 +17,10 @@ export default function ProfilePage() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
+    document.title = 'Contextra - Profile';
+  }, []);
+
+  useEffect(() => {
     if (message) {
       const timer = setTimeout(() => setMessage(''), 5000);
       return () => clearTimeout(timer);

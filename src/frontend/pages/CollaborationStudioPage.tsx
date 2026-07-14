@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function CollaborationStudioPage() {
-  return (
-    <div className="bg-background text-on-background font-body-md selection:bg-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
+  useEffect(() => {
+    document.title = 'Contextra - Collaboration Studio';
+  }, []);
+
+  useStyleBlock(`.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24
     }
 .glass-effect {
@@ -25,7 +27,10 @@ export default function CollaborationStudioPage() {
     opacity: 0.03;
     pointer-events: none;
     z-index: 10
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-background text-on-background font-body-md selection:bg-secondary-container w-full min-h-screen">
       
       
 {/* Top Navigation Bar */}

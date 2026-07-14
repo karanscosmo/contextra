@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function MobileMissionControlPage() {
-  return (
-    <div className="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen relative pb-32 overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container w-full">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `
+  useEffect(() => {
+    document.title = 'Contextra - Mission Control';
+  }, []);
+
+  useStyleBlock(`
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
@@ -24,7 +26,10 @@ export default function MobileMissionControlPage() {
     body {
       min-height: max(884px, 100dvh);
     }
-  ` }} />
+  `);
+
+  return (
+    <div className="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen relative pb-32 overflow-x-hidden selection:bg-secondary-container selection:text-on-secondary-container w-full">
       
       
 {/* TopAppBar */}

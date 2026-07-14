@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function SearchUniversePage() {
-  return (
-    <div className="bg-transparent text-on-surface vellum-texture min-h-screen selection:bg-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.glass-surface {
+  useEffect(() => {
+    document.title = 'Contextra - Search';
+  }, []);
+
+  useStyleBlock(`.glass-surface {
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px)
     }
@@ -21,7 +23,10 @@ export default function SearchUniversePage() {
 .node-pulse:hover {
     box-shadow: 0 0 0 15px rgba(94, 87, 143, 0);
     transition: box-shadow 0.6s ease-out
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-transparent text-on-surface vellum-texture min-h-screen selection:bg-secondary-container w-full min-h-screen">
       
       
 {/* TopAppBar Navigation Shell */}

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function ResearchPlaybackPage() {
-  return (
-    <div className="bg-background text-on-surface font-body-md min-h-screen overflow-x-hidden selection:bg-tertiary-fixed selection:text-on-tertiary-fixed w-full">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.glass-edge {
+  useEffect(() => {
+    document.title = 'Contextra - Research Playback';
+  }, []);
+
+  useStyleBlock(`.glass-edge {
     border: 0.5px solid rgba(255, 255, 255, 0.2)
     }
 .grain-overlay {
@@ -16,7 +18,10 @@ export default function ResearchPlaybackPage() {
     filter: blur(8px);
     background: #c8bffe;
     opacity: 0.4
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-background text-on-surface font-body-md min-h-screen overflow-x-hidden selection:bg-tertiary-fixed selection:text-on-tertiary-fixed w-full">
       
       
 {/* TopAppBar */}

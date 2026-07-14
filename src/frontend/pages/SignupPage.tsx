@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from '../components/Logo';
 import { auth, db } from '../lib/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useRouter } from '../App';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function SignupPage() {
   const { navigate } = useRouter();
@@ -14,6 +15,10 @@ export default function SignupPage() {
   const [aiMode, setAiMode] = useState('strict');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    document.title = 'Contextra - Create Account';
+  }, []);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,14 +59,14 @@ export default function SignupPage() {
     }
   };
 
-  return (
-    <div className="bg-background text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container h-screen w-full overflow-hidden flex flex-col md:flex-row min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `
+  useStyleBlock(`
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
-    ` }} />
+    `);
+
+  return (
+    <div className="bg-background text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container h-screen w-full overflow-hidden flex flex-col md:flex-row min-h-screen">
       
       {/* Left Pane: Ambient Imagery & Brand */}
       <div className="relative hidden md:flex flex-col justify-between w-2/5 h-full p-margin-page bg-surface-container-high overflow-hidden border-r border-outline-variant/30">

@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
 
 export default function DocsPage() {
   const { navigate } = useRouter();
   const [activeSection, setActiveSection] = useState('getting-started');
+
+  useEffect(() => {
+    document.title = 'Contextra - Documentation';
+  }, []);
 
   const docSections = [
     { id: 'getting-started', label: 'Getting Started' },

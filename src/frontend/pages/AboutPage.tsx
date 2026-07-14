@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
 
 export default function AboutPage() {
   const { navigate } = useRouter();
+
+  useEffect(() => {
+    document.title = 'Contextra - About';
+  }, []);
 
   return (
     <div className="bg-surface text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container min-h-screen w-full relative pb-32">

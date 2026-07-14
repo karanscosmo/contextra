@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
 
@@ -39,6 +39,10 @@ export default function NotificationsPage() {
       read: true,
     },
   ]);
+
+  useEffect(() => {
+    document.title = 'Contextra - Notifications';
+  }, []);
 
   const markAllRead = () => {
     setAlerts(alerts.map(a => ({ ...a, read: true })));

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function GlobalCopilotCollaborationPage() {
-  return (
-    <div className="font-body-md text-body-md overflow-hidden relative w-screen h-screen w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `
+  useEffect(() => {
+    document.title = 'Contextra - Copilot';
+  }, []);
+
+  useStyleBlock(`
         /* Base styles enforcing the "Digital Tactility" theme */
         body {
             background-color: theme('colors.background');
@@ -31,7 +33,10 @@ export default function GlobalCopilotCollaborationPage() {
         .icon-fill {
             font-variation-settings: 'FILL' 1;
         }
-    ` }} />
+    `);
+
+  return (
+    <div className="font-body-md text-body-md overflow-hidden relative w-screen h-screen w-full min-h-screen">
       
       
 {/* Background Environment (Synthesis Studio Screen 16) */}

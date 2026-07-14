@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function SettingsPage() {
-  return (
-    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden h-screen flex w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.glass-panel {
+  useEffect(() => {
+    document.title = 'Contextra - Settings';
+  }, []);
+
+  useStyleBlock(`.glass-panel {
     background: rgba(252, 249, 241, 0.4);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px)
@@ -23,7 +25,10 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 50%;
     cursor: pointer;
     border: 4px solid #fff
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden h-screen flex w-full min-h-screen">
       
       
 {/* Side Navigation Bar */}

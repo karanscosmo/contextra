@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function IntelligenceSetupPage() {
-  return (
-    <div className="font-body-md text-on-surface antialiased w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.paper-grain {
+  useEffect(() => {
+    document.title = 'Contextra - Intelligence Setup';
+  }, []);
+
+  useStyleBlock(`.paper-grain {
     background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuCUR2AgYpWPlqdWKn-fBIXP8STFoh6SQg0JnBkVX-jb0uOTKtnrKddLp7E8BsMmEjEFR_fh37TGjTMT6ZgMhuUDIuxLU6RuJuLd6aAKvzn6s5kh41O9xmiUUFYjwQ_czgmS9uyG7LNpuA1veCNby9ZS2KicTevxMNodXy9hXzLKhvyPwLyrg6p8UmIV9X5PmJl61yNDqwGEozWmxi_h_r6Q29Q6jHrucZbjTiyi33bNoesegvBpuIjrQk9KU558mcoa3bUYbp2ALLY);
     opacity: 0.03;
     pointer-events: none
@@ -20,7 +22,10 @@ export default function IntelligenceSetupPage() {
     }
 body {
     background-color: #fcf9f1
-    }` }} />
+    }`);
+
+  return (
+    <div className="font-body-md text-on-surface antialiased w-full min-h-screen">
       
       
 {/* Main Layout Container */}

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function CollectionsHubPage() {
-  return (
-    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.glass-sheet {
+  useEffect(() => {
+    document.title = 'Contextra - Collections Hub';
+  }, []);
+
+  useStyleBlock(`.glass-sheet {
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(24px);
     border: 1px solid rgba(229, 226, 218, 0.8)
@@ -23,7 +25,10 @@ export default function CollectionsHubPage() {
     }
 .material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container w-full min-h-screen">
       
       
 {/* TopAppBar */}

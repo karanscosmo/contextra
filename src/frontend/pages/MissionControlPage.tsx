@@ -4,11 +4,16 @@ import { auth } from '../lib/firebase';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import Logo from '../components/Logo';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function MissionControlPage() {
   const { navigate } = useRouter();
   const [stats, setStats] = useState({ nodes: 1242, edges: 4892, entropy: 0.42 });
   const [userName, setUserName] = useState('Researcher');
+
+  useEffect(() => {
+    document.title = 'Contextra - Mission Control';
+  }, []);
 
   useEffect(() => {
     // Fetch stats from backend API
@@ -33,10 +38,7 @@ export default function MissionControlPage() {
     return unsubscribe;
   }, []);
 
-  return (
-    <div className="bg-transparent text-on-surface w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `body {
+  useStyleBlock(`body {
     background-color: transparent;
     -webkit-font-smoothing: antialiased
     }
@@ -46,7 +48,10 @@ export default function MissionControlPage() {
     }
 .glass-edge {
     box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2)
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-transparent text-on-surface w-full min-h-screen">
       
       <Header activeTab="control" />
       <Sidebar activePage="canvas" />

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function IntelligenceActivityPage() {
-  return (
-    <div className="bg-white/60 backdrop-blur-sm font-body-md text-on-surface selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.glass-edge {
+  useEffect(() => {
+    document.title = 'Contextra - Activity';
+  }, []);
+
+  useStyleBlock(`.glass-edge {
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2)
     }
 .grain-overlay {
@@ -16,7 +18,10 @@ export default function IntelligenceActivityPage() {
     }
 .text-glow {
     text-shadow: 0 0 15px rgba(94, 87, 143, 0.2)
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-white/60 backdrop-blur-sm font-body-md text-on-surface selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
       
       <Header />
       <Sidebar activePage="timeline" />

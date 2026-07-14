@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
 
 export default function PricingPage() {
   const { navigate } = useRouter();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('yearly');
+
+  useEffect(() => {
+    document.title = 'Contextra - Pricing';
+  }, []);
 
   const plans = [
     {

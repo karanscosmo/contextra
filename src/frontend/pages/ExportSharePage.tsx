@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function ExportSharePage() {
-  return (
-    <div className="bg-background text-on-surface antialiased flex h-screen overflow-hidden selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `
+  useEffect(() => {
+    document.title = 'Contextra - Export & Share';
+  }, []);
+
+  useStyleBlock(`
         /* Base Paper Texture Overlay for subtle tactility */
         .paper-texture {
             position: relative;
@@ -17,7 +19,10 @@ export default function ExportSharePage() {
             pointer-events: none;
             z-index: 10;
         }
-    ` }} />
+    `);
+
+  return (
+    <div className="bg-background text-on-surface antialiased flex h-screen overflow-hidden selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
       
       
 {/* Shared Component: SideNavBar */}

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function IngestionHubPage() {
-  return (
-    <div className="bg-transparent text-on-surface w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `body {
+  useEffect(() => {
+    document.title = 'Contextra - Source Hub';
+  }, []);
+
+  useStyleBlock(`body {
     background-color: transparent;
     font-family: "Plus Jakarta Sans", sans-serif;
     -webkit-font-smoothing: antialiased
@@ -28,7 +30,10 @@ export default function IngestionHubPage() {
     }
 .semantic-progress-fill {
     background: linear-gradient(90deg, #e5deff 0%, #5e578f 100%)
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-transparent text-on-surface w-full min-h-screen">
       
       <Header />
       <Sidebar activePage="sources" />

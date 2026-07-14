@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function ResearchCanvasPage() {
-  return (
-    <div className="bg-transparent text-on-surface vellum-texture min-h-screen overflow-hidden w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
+  useEffect(() => {
+    document.title = 'Contextra - Research Canvas';
+  }, []);
+
+  useStyleBlock(`.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
     }
 .vellum-texture {
@@ -24,7 +26,10 @@ export default function ResearchCanvasPage() {
 ::-webkit-scrollbar-thumb {
     background: #e5e2da;
     border-radius: 10px
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-transparent text-on-surface vellum-texture min-h-screen overflow-hidden w-full min-h-screen">
       
       <Sidebar activePage="canvas" />
 {/* Top: TopAppBar & Command Layer */}

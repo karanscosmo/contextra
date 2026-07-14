@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function LandingPagePage() {
   const { navigate } = useRouter();
 
-  return (
-    <div className="text-on-surface selection:bg-secondary-container/30 w-full min-h-screen">
-      <style dangerouslySetInnerHTML={{ __html: `
+  useEffect(() => {
+    document.title = 'Contextra - Home';
+  }, []);
+
+  useStyleBlock(`
         .feature-card { transition: all 0.3s ease; }
         .feature-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(94,91,124,0.12); }
         .cta-glow { box-shadow: 0 8px 32px rgba(94,91,124,0.25); }
         .hero-badge { background: linear-gradient(135deg, rgba(94,91,124,0.08), rgba(94,87,143,0.12)); }
-      ` }} />
+      `);
+
+  return (
+    <div className="text-on-surface selection:bg-secondary-container/30 w-full min-h-screen">
 
       {/* Navbar */}
       <nav className="bg-white/70 backdrop-blur-2xl sticky top-0 z-40 flex justify-between items-center px-8 md:px-16 h-16 w-full border-b border-outline-variant/15 shadow-sm">

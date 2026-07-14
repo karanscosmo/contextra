@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
 
 export default function NotFoundPage() {
   const { navigate } = useRouter();
+
+  useEffect(() => {
+    document.title = 'Contextra - Page Not Found';
+  }, []);
 
   return (
     <div className="bg-surface text-on-surface font-body-md selection:bg-secondary-container selection:text-on-secondary-container min-h-screen flex items-center justify-center py-20 px-6 text-center">

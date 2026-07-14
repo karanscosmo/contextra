@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function KnowledgeConstellationPage() {
-  return (
-    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md overflow-hidden selection:bg-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
+  useEffect(() => {
+    document.title = 'Contextra - Knowledge Constellation';
+  }, []);
+
+  useStyleBlock(`.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24
     }
 .vellum-texture {
@@ -27,7 +29,10 @@ export default function KnowledgeConstellationPage() {
         .animate-spin-slow {
             animation: spin-slow 20s linear infinite;
         }
-    ` }} />
+    `);
+
+  return (
+    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md overflow-hidden selection:bg-secondary-container w-full min-h-screen">
       
       <Header />
       <Sidebar activePage="constellation" />

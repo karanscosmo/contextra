@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
 
@@ -28,6 +28,10 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [lens, setLens] = useState('academic');
   const [modality, setModality] = useState('balanced');
+
+  useEffect(() => {
+    document.title = 'Contextra - Onboarding';
+  }, []);
 
   const currentStep = steps.find(s => s.id === step)!;
 

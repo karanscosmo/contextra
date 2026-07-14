@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function CitationExplorerPage() {
-  return (
-    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
+  useEffect(() => {
+    document.title = 'Contextra - Citation Explorer';
+  }, []);
+
+  useStyleBlock(`.material-symbols-outlined {
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24
     }
 .glass-edge {
@@ -16,7 +18,10 @@ export default function CitationExplorerPage() {
     }
 .writing-mode-vertical {
     writing-mode: vertical-rl
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-white/60 backdrop-blur-sm text-on-surface font-body-md selection:bg-secondary-container w-full min-h-screen">
       
       
 {/* SideNavBar */}

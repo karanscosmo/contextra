@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from '../components/Logo';
 import { auth } from '../lib/firebase';
 import { signInWithEmailAndPassword, signInAnonymously } from 'firebase/auth';
 import { useRouter } from '../App';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function LoginPage() {
   const { navigate } = useRouter();
@@ -11,6 +12,34 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Contextra - Sign In';
+  }, []);
+
+  useStyleBlock(`.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24
+    }
+.vellum-texture {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuCxjnyIeXEdb_PZNtVScQlP3ufHVpha9yZA3nrty8SrCGF3QaON9bsNfjWmTmeon_RfjIV6_7jmvs5tZCVOCkys7oSCDyv_x5L4YhiKAqBOW3r8flDgaYs2PPvKchsWytL8F7SqS0-qcSZ_AkhwylK3Zq5GAZKmRylQXjzv0fkSwKOjStFZTWhE8w_75tZCMY8EMps6g1uZ8CKYxcFqEhbaxcjfS97adfeH3m4uiATUwqtkz2PSpGQ2dgaJLbrAY09twvtB9z5Jda8);
+    background-blend-mode: soft-light
+    }
+.glass-panel {
+    backdrop-filter: blur(24px);
+    background: rgba(252, 249, 241, 0.6);
+    border: 1px solid rgba(229, 226, 218, 0.5)
+    }
+.canvas-grain {
+    position: relative
+    }
+.canvas-grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDO6Dp1qlAhPDgDu0k5MeT95tASpuZCVuUvL31XCR7Dw3pr7HU8-tY2-jvg1RFY6krhJTC1A9Yse3oMwcwtr1mGdvTcpA2DBJ-Lwk-xNilwO6z1q5tGQza6GzYJfGF7bQGrP4VoQCfPAVQvF3r7uxeXCRq6C5Pg5m51nUWb04fU02qfW8o7KE3K6p9hDXd57NZpPaSCFESthwfkRUo5w6x-5jSfHJCqRIB66QFGNoxO_yx4C9Glx1ZBNTzdB3X1yt71OlkgpanOhu8);
+    opacity: 0.03;
+    pointer-events: none
+    }`);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,30 +89,6 @@ export default function LoginPage() {
 
   return (
     <div className="text-on-surface selection:bg-secondary-container selection:text-on-secondary-container overflow-hidden w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `.material-symbols-outlined {
-    font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24
-    }
-.vellum-texture {
-    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuCxjnyIeXEdb_PZNtVScQlP3ufHVpha9yZA3nrty8SrCGF3QaON9bsNfjWmTmeon_RfjIV6_7jmvs5tZCVOCkys7oSCDyv_x5L4YhiKAqBOW3r8flDgaYs2PPvKchsWytL8F7SqS0-qcSZ_AkhwylK3Zq5GAZKmRylQXjzv0fkSwKOjStFZTWhE8w_75tZCMY8EMps6g1uZ8CKYxcFqEhbaxcjfS97adfeH3m4uiATUwqtkz2PSpGQ2dgaJLbrAY09twvtB9z5Jda8);
-    background-blend-mode: soft-light
-    }
-.glass-panel {
-    backdrop-filter: blur(24px);
-    background: rgba(252, 249, 241, 0.6);
-    border: 1px solid rgba(229, 226, 218, 0.5)
-    }
-.canvas-grain {
-    position: relative
-    }
-.canvas-grain::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDO6Dp1qlAhPDgDu0k5MeT95tASpuZCVuUvL31XCR7Dw3pr7HU8-tY2-jvg1RFY6krhJTC1A9Yse3oMwcwtr1mGdvTcpA2DBJ-Lwk-xNilwO6z1q5tGQza6GzYJfGF7bQGrP4VoQCfPAVQvF3r7uxeXCRq6C5Pg5m51nUWb04fU02qfW8o7KE3K6p9hDXd57NZpPaSCFESthwfkRUo5w6x-5jSfHJCqRIB66QFGNoxO_yx4C9Glx1ZBNTzdB3X1yt71OlkgpanOhu8);
-    opacity: 0.03;
-    pointer-events: none
-    }` }} />
       
       <main className="flex h-screen w-full flex-col md:flex-row">
         {/* Left Side: Ambient Visuals */}

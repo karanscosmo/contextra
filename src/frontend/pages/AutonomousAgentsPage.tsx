@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function AutonomousAgentsPage() {
-  return (
-    <div className="antialiased min-h-screen flex font-body-md text-body-md overflow-hidden w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `
+  useEffect(() => {
+    document.title = 'Contextra - Autonomous Agents';
+  }, []);
+
+  useStyleBlock(`
         body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
         .glass-panel { background: rgba(247, 243, 235, 0.7); backdrop-filter: blur(24px); border: 1px solid rgba(197, 199, 194, 0.3); }
         .thread-line { width: 1px; background: theme('colors.outline-variant'); opacity: 0.3; }
         .agent-glow { box-shadow: 0 0 15px rgba(94, 87, 143, 0.15); }
-    ` }} />
+    `);
+
+  return (
+    <div className="antialiased min-h-screen flex font-body-md text-body-md overflow-hidden w-full min-h-screen">
       
       
 {/* SideNavBar (from JSON) */}

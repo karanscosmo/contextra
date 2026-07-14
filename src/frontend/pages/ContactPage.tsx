@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from '../App';
 import Logo from '../components/Logo';
 
@@ -9,6 +9,10 @@ export default function ContactPage() {
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Contextra - Contact';
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

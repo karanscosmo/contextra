@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function GeneratedInsightsPage() {
-  return (
-    <div className="bg-transparent text-on-surface min-h-screen w-full">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `body {
+  useEffect(() => {
+    document.title = 'Contextra - Generated Insights';
+  }, []);
+
+  useStyleBlock(`body {
     background-color: transparent
     }
 .material-symbols-outlined {
@@ -16,7 +18,10 @@ export default function GeneratedInsightsPage() {
     }
 .paper-grain {
     background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuD4_vTTgGJQq1yIy2tWEscWoKfasuMkX4lGN2Od5-yFUYKTiWoDK5IbaUSiFGtwMLGfiMzdzlBze1GJyYHLkcjvdjgZQr6Qle3etQG743Jn2O76z5VXAV6mWyaKHI3gzbG_yz-coHLEgWu15x4nfNsOUuqduZ8amFB4qOXocFScI6WgF6qNJP9PAnhUbMdPzUkJQ6lHtcQQuNu6sNIbwDsuGG-UFeTBnO2GfQEJqHGc5az0yoZtMq9c2b1Ep4RY1MmF6Jaf9kVBEL8)
-    }` }} />
+    }`);
+
+  return (
+    <div className="bg-transparent text-on-surface min-h-screen w-full">
       
       <Sidebar activePage="synthesis" />
       <div className="flex">

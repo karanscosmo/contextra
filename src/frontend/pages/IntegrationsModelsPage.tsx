@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import { useStyleBlock } from '../lib/useStyleBlock';
 
 export default function IntegrationsModelsPage() {
-  return (
-    <div className="bg-transparent text-on-surface antialiased flex flex-col selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
-      {/* Page Custom Style Block */}
-      <style dangerouslySetInnerHTML={{ __html: `
+  useEffect(() => {
+    document.title = 'Contextra - Integrations & Models';
+  }, []);
+
+  useStyleBlock(`
         body {
             background-color: transparent;
         }
-    ` }} />
+    `);
+
+  return (
+    <div className="bg-transparent text-on-surface antialiased flex flex-col selection:bg-secondary-container selection:text-on-secondary-container w-full min-h-screen">
       
       <Header />
       <Sidebar activePage="none" />
